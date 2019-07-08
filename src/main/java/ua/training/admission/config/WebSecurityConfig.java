@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* The pages does not require login */
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/signup", "/users/*", "/subjects/*").permitAll();
+                .antMatchers("/", "/login", "/signup"/*, "/users/*", "/subjects/*"*/).permitAll();
 
 		/*
 		 /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
@@ -59,13 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* Config for Login Form */
         http.authorizeRequests()
-                .and().formLogin()
-
-                // Submit URL of login page.
-                .loginPage("/login").failureUrl("/login?error")
-
-                // Config for Logout Page
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
+                .and().formLogin().loginPage("/login")
+                .and().logout();
 
         /* Config Remember Me. */
         http.authorizeRequests()

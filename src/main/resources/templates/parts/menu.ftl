@@ -13,9 +13,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="/userInfo">User Info (USER)</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
         </ul>
+        <form method="post" action="/logout">
+            <button class="button" type="submit">
+                Logout
+            </button>
+            <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden"/>
+        </form>
     </div>
 </div>
