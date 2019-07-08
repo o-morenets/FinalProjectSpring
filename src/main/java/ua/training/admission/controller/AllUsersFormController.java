@@ -19,7 +19,7 @@ public class AllUsersFormController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/all_users", method = RequestMethod.GET)
     public UsersDTO getAllUsers() {
         UsersDTO allUsers = userService.getAllUsers();
         log.info("{}", allUsers);

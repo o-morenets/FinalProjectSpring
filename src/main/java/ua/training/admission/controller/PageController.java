@@ -47,7 +47,7 @@ public class PageController {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
         model.addAttribute("userInfo", loginedUser);
 
-        return "userInfo";
+        return "userSelectSubject";
     }
 
     @RequestMapping(value = "/403")
