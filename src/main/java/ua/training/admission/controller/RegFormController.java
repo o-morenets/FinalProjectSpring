@@ -20,14 +20,16 @@ public class RegFormController {
         this.userService = userService;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+//    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/reg_form", method = RequestMethod.POST)
-    public void registrationFormController(UserSignupDTO userSignupDTO) {
+    public String registrationFormController(UserSignupDTO userSignupDTO) {
 
         // TODO validate DTO -> return to frontEnd when error
 
         userService.saveNewUser(userSignupDTO);
         log.info("{}", userSignupDTO);
+
+        return "redirect:/";
     }
 
     @ExceptionHandler(RuntimeException.class)
