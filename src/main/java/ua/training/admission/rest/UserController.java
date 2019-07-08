@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.repository.UserRepository;
+import javax.ws.rs.Produces;
 
 import javax.validation.Valid;
+import javax.ws.rs.core.MediaType;
 
 @RestController
 public class UserController {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/users")
     public Page<User> getAllUsers(Pageable pageable) {
@@ -37,7 +43,6 @@ public class UserController {
             return userRepository.save(user);
         }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + " not found"));
     }
-
 
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {

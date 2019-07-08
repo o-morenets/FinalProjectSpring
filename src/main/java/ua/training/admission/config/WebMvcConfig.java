@@ -13,10 +13,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    // In this example the locale information lies on the parameter of the URL.
-    // Locale information will stored in Cookie, and the user does not reselect language in the next pages.
-    // URL example: http://localhost:8080/SomeContextPath/login1?lang=en
-	
+    /*
+     In this example the locale information lies on the parameter of the URL.
+     Locale information will stored in Cookie, and the user does not reselect language in the next pages.
+     URL example: http://localhost:8080/SomeContextPath/login1?lang=en
+    */
+
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver() {
 //        CookieLocaleResolver resolver = new CookieLocaleResolver();
@@ -44,38 +46,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
     }
-
-/*
-
-    // URL example: http://localhost:8080/SomeContextPath/en/login2:
-
-    @Bean(name = "messageSource")
-    public MessageSource getMessageResource() {
-        ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-
-        // Read i18n/messages_xxx.properties file.
-        // For example: i18n/messages_en.properties
-        messageResource.setBasename("classpath:i18n/messages");
-        messageResource.setDefaultEncoding("UTF-8");
-        return messageResource;
-    }
-
-    // To solver URL like:
-    // /SomeContextPath/en/login2
-    // /SomeContextPath/vi/login2
-    // /SomeContextPath/fr/login2
-    @Bean(name = "localeResolver")
-    public LocaleResolver getLocaleResolver() {
-        LocaleResolver resolver = new UrlLocaleResolver();
-        return resolver;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
-
-        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/*", "/fr/*", "/vi/*");
-    }
-*/
 }

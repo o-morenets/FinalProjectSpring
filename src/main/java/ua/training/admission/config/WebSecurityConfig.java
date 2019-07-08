@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,19 +19,22 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
+
+    private final DataSource dataSource;
 
     @Autowired
-    private DataSource dataSource;
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, DataSource dataSource) {
+        this.userDetailsService = userDetailsService;
+        this.dataSource = dataSource;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
 
         /* The pages does not require login */
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/signup").permitAll();
+                .antMatchers("/", "/login", "/signup", "/users/*", "/subjects/*").permitAll();
 
 		/*
 		 /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
@@ -58,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin()
 
                 // Submit URL of login page.
-                .loginPage("/login")
+                .loginPage("/login").failureUrl("/login?error")
 
                 // Config for Logout Page
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");

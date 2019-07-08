@@ -12,7 +12,7 @@
     <#include "parts/lang.ftl">
     <#include "parts/menu.ftl">
 
-    <div>${userInfo.getUsername()}></div>
+    <div>Welcome, ${userInfo.getUsername()}</div>
 </div>
 </body>
 </html>
