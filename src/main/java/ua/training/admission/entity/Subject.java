@@ -8,22 +8,26 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long subjectId;
+    private Long id;
 
-    private String subjectName;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(mappedBy = "subject")
+    Set<SubjectGrade> grades;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "speciality_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    private Speciality speciality;
 }

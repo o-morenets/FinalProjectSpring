@@ -9,9 +9,9 @@ import ua.training.admission.entity.User;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UsersDTO {
     private List<User> users;
 }

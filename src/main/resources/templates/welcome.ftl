@@ -24,14 +24,35 @@
 
     <div class="row">
         <div class="col-md-12">
-            <a href="/users">Get All Users (JSON)</a>
+            <a href="/specialities">Get All Specialities (GET)</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            Add user
-            <form method="post" action="/users">
+            Add Speciality (POST)
+            <form method="post" action="/specialities">
+                <div class="row">
+                    <div class="col">
+                        <input name="name" type="text" class="form-control" placeholder="Speciality name">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-secondary">Add</button>
+                <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/specialities/1/users">Get All Users (GET)</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            Add User (POST)
+            <form method="post" action="/specialities/1/users">
                 <div class="row">
                     <div class="col">
                         <input name="firstName" type="text" class="form-control" placeholder="First name">
@@ -40,26 +61,7 @@
                         <input name="lastName" type="text" class="form-control" placeholder="Last name">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-secondary">Add</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <a href="/users/1/subjects">Get All Subjects (JSON)</a>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            Add subject
-            <form method="post" action="/users/1/subjects">
-                <div class="row">
-                    <div class="col">
-                        <input name="name" type="text" class="form-control" placeholder="Subject name">
-                    </div>
-                </div>
+                <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden"/>
                 <button type="submit" class="btn btn-secondary">Add</button>
             </form>
         </div>

@@ -10,6 +10,13 @@
     <#include "parts/lang.ftl">
     <#include "parts/menu.ftl">
 
-    <h3 style="color: red;">${message}</h3>
+    <div class="row">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">403</h1>
+                <p class="lead">403</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

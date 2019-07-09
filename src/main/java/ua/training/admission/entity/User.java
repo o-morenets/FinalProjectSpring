@@ -4,23 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(name = "APP_USER_UK", columnNames = "email")})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "APP_USER_UK", columnNames = "email")})
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Long id;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -28,27 +32,35 @@ public class User implements UserDetails {
     @Column(name = "role_name")
     private Collection<Role> authorities;
 
-    @Column(length = 128, nullable = false)
+    @NotNull
+    @Size(max = 128)
     private String password;
 
-    @Column(name = "email", nullable = false)
+    @NotNull
+    @Column(name = "email")
     private String username;
 
-    @Transient
     private boolean accountNonExpired;
 
-    @Transient
     private boolean accountNonLocked;
 
-    @Transient
     private boolean credentialsNonExpired;
 
-    @Column(length = 1, nullable = false)
     private boolean enabled;
 
-    @Column(name = "first_name", nullable = false)
+    @NotNull
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @NotNull
+    @Column(name = "last_name")
     private String lastName;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    Set<SubjectGrade> grades;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "speciality_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Speciality speciality;
 }
