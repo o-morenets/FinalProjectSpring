@@ -24,14 +24,14 @@
 
     <div class="row">
         <div class="col-md-12">
-            <a href="/specialities">Get All Specialities (GET)</a>
+            <a href="/spec">Get All Specialities (GET)</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             Add Speciality (POST)
-            <form method="post" action="/specialities">
+            <form method="post" action="/spec">
                 <div class="row">
                     <div class="col">
                         <input name="name" type="text" class="form-control" placeholder="Speciality name">

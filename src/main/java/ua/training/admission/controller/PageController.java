@@ -35,19 +35,13 @@ public class PageController {
         return "signup";
     }
 
-    // Admin page only
-    @RequestMapping("/allUsers")
-    public String allUsers() {
-        return "allUsers";
-    }
-
     // User page
     @RequestMapping(value = "/userInfo")
     public String userInfo(Model model, Principal principal) {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
         model.addAttribute("userInfo", loginedUser);
 
-        return "userSelectSubject";
+        return "user_info";
     }
 
     @RequestMapping(value = "/403")

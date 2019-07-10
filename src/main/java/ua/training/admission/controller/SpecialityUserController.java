@@ -1,10 +1,11 @@
-package ua.training.admission.rest;
+package ua.training.admission.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.ResourceNotFoundException;
@@ -13,15 +14,15 @@ import ua.training.admission.repository.UserRepository;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/specialities")
-public class UserRestController {
+public class SpecialityUserController {
 
     private final UserRepository userRepository;
     private final SpecialityRepository specialityRepository;
 
     @Autowired
-    public UserRestController(UserRepository userRepository, SpecialityRepository specialityRepository) {
+    public SpecialityUserController(UserRepository userRepository, SpecialityRepository specialityRepository) {
         this.userRepository = userRepository;
         this.specialityRepository = specialityRepository;
     }
@@ -34,7 +35,7 @@ public class UserRestController {
     }
 
     @PostMapping(value = "/{specialityId}/users",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User createUser(@PathVariable(value = "specialityId") Long specialityId,
                                  @Valid @RequestBody User user) {

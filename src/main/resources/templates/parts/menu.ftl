@@ -8,7 +8,7 @@
                 <a class="nav-link active" href="/login">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/allUsers">All users (ADMIN)</a>
+                <a class="nav-link" href="/users">All users (ADMIN)</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/userInfo">User Info (USER)</a>

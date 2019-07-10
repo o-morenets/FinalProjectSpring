@@ -24,7 +24,7 @@ public class Subject {
     private String name;
 
     @OneToMany(mappedBy = "subject")
-    Set<SubjectGrade> grades;
+    private Set<SubjectGrade> grades;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "speciality_id")

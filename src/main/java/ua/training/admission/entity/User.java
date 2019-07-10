@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     @Size(max = 128)
     private String password;
 
-    @NotNull
+    @NotBlank
     @Column(name = "email")
     private String username;
 
@@ -48,16 +49,16 @@ public class User implements UserDetails {
 
     private boolean enabled;
 
-    @NotNull
+    @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
-    @NotNull
+    @NotBlank
     @Column(name = "last_name")
     private String lastName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    Set<SubjectGrade> grades;
+    private Set<SubjectGrade> grades;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "speciality_id")

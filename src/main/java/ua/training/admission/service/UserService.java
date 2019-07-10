@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.training.admission.dto.UserLoginDTO;
 import ua.training.admission.dto.UserSignupDTO;
-import ua.training.admission.dto.UsersDTO;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueLoginException;
@@ -28,10 +27,6 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public UsersDTO getAllUsers() {
-        return new UsersDTO(userRepository.findAll());
     }
 
     public Optional<User> login(UserLoginDTO userLoginDTO) {

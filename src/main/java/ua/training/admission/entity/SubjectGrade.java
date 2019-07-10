@@ -13,17 +13,17 @@ import javax.persistence.*;
 public class SubjectGrade {
 
     @EmbeddedId
-    UserGradeKey id;
+    private UserGradeKey id;
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @MapsId("subject_id")
     @JoinColumn(name = "subject_id")
-    Subject subject;
+    private Subject subject;
 
-    int grade;
+    private int grade;
 }
