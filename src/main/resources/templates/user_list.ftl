@@ -1,17 +1,7 @@
-<!DOCTYPE html>
+<#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as s/>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><@s.message "allUsers.title"/></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
 
-<body>
-<div class="container">
-    <#include "parts/lang.ftl">
-    <#include "parts/menu.ftl">
+<@c.page>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -25,6 +15,7 @@
                             <th><@s.message "allUsers.panel.lastName"/></th>
                             <th><@s.message "allUsers.panel.email"/></th>
                             <th><@s.message "allUsers.panel.roles"/></th>
+                            <th><@s.message "allUsers.panel.action"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,7 +26,7 @@
                                 <td>${user.lastName}</td>
                                 <td>${user.username}</td>
                                 <td><#list user.authorities as role>${role}<#sep>, </#list></td>
-                                <td><a href="/user/${user.id}">edit</a></td>
+                                <td><a href="/users/${user.id}">edit</a></td>
                             </tr>
                         </#list>
                         </tbody>
@@ -44,7 +35,4 @@
             </div>
         </div>
     </div>
-</div>
-
-</body>
-</html>
+</@c.page>

@@ -64,4 +64,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "speciality_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Speciality speciality;
+
+    public boolean isAdmin() {
+        return authorities.contains(Role.ROLE_ADMIN);
+    }
 }
