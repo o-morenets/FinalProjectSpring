@@ -9,12 +9,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.admission.dto.UserSignupDto;
-import ua.training.admission.entity.User;
 import ua.training.admission.service.UserService;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -36,6 +32,7 @@ public class RegFormController {
     public String addUser(UserSignupDto userSignupDto,
                           Model model) {
 
+        String returnPage = "redirect:/login";
         boolean isFormValid = true;
 
         if (StringUtils.isEmpty(userSignupDto.getFirstName())) {
@@ -59,15 +56,15 @@ public class RegFormController {
         }
 
         if (!isFormValid) {
-            return "signup";
+            returnPage = "signup";
         }
 
-        if (!userService.saveNewUser(userSignupDto)) {
+        if (!userService.createUser(userSignupDto)) {
             model.addAttribute("emailError", "User exists!");
-            return "signup";
+            returnPage = "signup";
         }
 
-        return "redirect:/login";
+        return returnPage;
     }
 
     @ExceptionHandler(RuntimeException.class)

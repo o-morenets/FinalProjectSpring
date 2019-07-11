@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.Speciality;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.repository.SpecialityRepository;
-import ua.training.admission.repository.UserRepository;
 
 import javax.validation.Valid;
 

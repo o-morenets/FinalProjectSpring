@@ -15,7 +15,7 @@
             </li>
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/1">Profile</a>     <#-- FIXME /users/1-->
+                    <a class="nav-link" href="/users/1">Profile</a> <#-- FIXME /users/1-->
                 </li>
             </#if>
             <#if isAdmin>
@@ -24,7 +24,6 @@
                 </li>
             </#if>
         </ul>
-
         <#if user??>
             <div class="navbar-text mr-3">${name}</div>
         <#else>
@@ -35,5 +34,6 @@
             </ul>
         </#if>
         <@l.logout />
+        <#include "lang.ftl">
     </div>
 </nav>
