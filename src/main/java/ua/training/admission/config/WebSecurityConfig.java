@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* The pages does not require login */
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/signup").permitAll();
+                .antMatchers("/", "/signup").permitAll();
 
         /* ROLE_USER */
         http.authorizeRequests()
@@ -58,8 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* Config for Login Form */
         http.authorizeRequests()
-                .and().formLogin().loginPage("/login")
-                .and().logout();
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll();
 
         /* Config Remember Me. */
         http.authorizeRequests()

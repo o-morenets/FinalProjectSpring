@@ -29,8 +29,7 @@ public class RegFormController {
     }
 
     @PostMapping("/signup")
-    public String addUser(UserSignupDto userSignupDto,
-                          Model model) {
+    public String addUser(UserSignupDto userSignupDto, Model model) {
 
         String returnPage = "redirect:/login";
         boolean isFormValid = true;

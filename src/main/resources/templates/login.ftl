@@ -20,7 +20,7 @@
                             <@s.message "login.panel.alert.error"/>
                         </div>
                     </#if>
-                    <form method="post">
+                    <form method="post" action="/login">
                         <div class="form-group">
                             <label id="inputEmailLabel"
                                    for="inputEmailEl"><@s.message "login.panel.email"/></label>
