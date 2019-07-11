@@ -3,6 +3,7 @@ package ua.training.admission.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,23 +33,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
 
         /* The pages does not require login */
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/signup").permitAll();
 
-		/*
-		 /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
-		 If no login, it will redirect to /login page.
-		*/
+        /* ROLE_USER */
         http.authorizeRequests()
-                .antMatchers("/userInfo")
+                .antMatchers(HttpMethod.GET, "/users/{userId}")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 
-        /* For ADMIN only. */
+        /* ROLE_ADMIN */
         http.authorizeRequests()
-                .antMatchers("/userList")
+                .antMatchers("/users/*")
                 .access("hasRole('ROLE_ADMIN')");
 
 		/*

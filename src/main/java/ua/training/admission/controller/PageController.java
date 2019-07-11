@@ -19,31 +19,6 @@ public class PageController {
         return "welcome";
     }
 
-    @RequestMapping("/login")
-    public String login(@RequestParam(name = "error", required = false) String error,
-                        @RequestParam(name = "logout", required = false) String logout,
-                        Model model) {
-
-        model.addAttribute("error", error != null);
-        model.addAttribute("logout", logout != null);
-
-        return "login";
-    }
-
-    @RequestMapping("/signup")
-    public String signup() {
-        return "signup";
-    }
-
-    // User page
-    @RequestMapping(value = "/userInfo")
-    public String userInfo(Model model, Principal principal) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        model.addAttribute("userInfo", loginedUser);
-
-        return "user_info";
-    }
-
     @RequestMapping(value = "/403")
     public String accessDenied(Model model, Principal principal) {
         if (principal != null) {

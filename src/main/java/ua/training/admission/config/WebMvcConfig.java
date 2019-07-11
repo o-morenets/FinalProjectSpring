@@ -13,29 +13,17 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    /*
-     In this example the locale information lies on the parameter of the URL.
-     Locale information will stored in Cookie, and the user does not reselect language in the next pages.
-     URL example: http://localhost:8080/SomeContextPath/login1?lang=en
-    */
-
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver() {
-//        CookieLocaleResolver resolver = new CookieLocaleResolver();
-//        resolver.setCookieDomain("myAppLocaleCookie");
-//        resolver.setCookieMaxAge(60 * 60); // 60 minutes
-        SessionLocaleResolver resolver = new SessionLocaleResolver();
-        return resolver;
+        return new SessionLocaleResolver();
     }
 
     @Bean(name = "messageSource")
     public MessageSource getMessageResource() {
         ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-
-        // Read i18n/messages_xxx.properties file.
-        // For example: i18n/messages_en.properties
         messageResource.setBasename("classpath:i18n/messages");
         messageResource.setDefaultEncoding("UTF-8");
+
         return messageResource;
     }
 
@@ -43,7 +31,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
         localeInterceptor.setParamName("lang");
-
         registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
     }
 }

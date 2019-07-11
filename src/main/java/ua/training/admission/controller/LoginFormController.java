@@ -4,34 +4,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.training.admission.dto.UserLoginDTO;
+import ua.training.admission.dto.UserLoginDto;
 import ua.training.admission.entity.User;
 import ua.training.admission.service.UserService;
 
 import java.util.Optional;
 
 @Slf4j
-@RestController
-@RequestMapping(value = "/")
+@Controller
 public class LoginFormController {
 
-    private final UserService userService;
+    @GetMapping("/login")
+    public String login(@RequestParam(name = "error", required = false) String error,
+                        @RequestParam(name = "logout", required = false) String logout,
+                        Model model) {
 
-    @Autowired
-    public LoginFormController(UserService userService) {
-        this.userService = userService;
-    }
+        model.addAttribute("error", error != null);
+        model.addAttribute("logout", logout != null);
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void loginFormController(UserLoginDTO userLoginDTO) {
-        log.info("{}", userLoginDTO);
-
-        // TODO validate DTO -> return to frontEnd when error
-
-        Optional<User> user = userService.login(userLoginDTO);
-        log.info("{}", "Logined user: " + user);
+        return "login";
     }
 
     @ExceptionHandler(RuntimeException.class)

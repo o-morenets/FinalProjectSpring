@@ -32,7 +32,7 @@ public class SpecialityController {
         return specialityRepository.findAll(pageable);
     }
 
-    @GetMapping("/{specId}")
+    @GetMapping("{specId}")
     public Speciality getOneSpeciality(@PathVariable Long specId) {
         return specialityRepository.findById(specId)
                 .orElseThrow(() -> new ResourceNotFoundException("specId " + specId + " not found"));
@@ -46,7 +46,7 @@ public class SpecialityController {
     }
 
 // TODO 2 return
-    @PutMapping("/{specId}")
+    @PutMapping("{specId}")
     public Speciality updateSpeciality(@PathVariable Long specId, @Valid @RequestBody Speciality specialityRequest) {
         return specialityRepository.findById(specId).map(speciality -> {
             speciality.setName(specialityRequest.getName());
@@ -54,7 +54,7 @@ public class SpecialityController {
         }).orElseThrow(() -> new ResourceNotFoundException("specId " + specId + " not found"));
     }
 
-    @DeleteMapping("/{specId}")
+    @DeleteMapping("{specId}")
     public ResponseEntity<?> deleteSpeciality(@PathVariable Long specId) {
         return specialityRepository.findById(specId).map(speciality -> {
             specialityRepository.delete(speciality);

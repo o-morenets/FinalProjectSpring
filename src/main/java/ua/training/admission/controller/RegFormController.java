@@ -2,15 +2,22 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ua.training.admission.dto.UserSignupDTO;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ua.training.admission.dto.UserSignupDto;
+import ua.training.admission.entity.User;
 import ua.training.admission.service.UserService;
 
+import javax.validation.Valid;
+
 @Slf4j
-@RestController
-@RequestMapping(value = "/api")
+@Controller
 public class RegFormController {
 
     private final UserService userService;
@@ -20,14 +27,47 @@ public class RegFormController {
         this.userService = userService;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/reg_form", method = RequestMethod.POST)
-    public void registrationFormController(UserSignupDTO userSignupDTO) {
+    @GetMapping("/signup")
+    public String signUp() {
+        return "signup";
+    }
 
-        // TODO validate DTO -> return to frontEnd when error
+    @PostMapping("/signup")
+    public String addUser(UserSignupDto userSignupDto,
+                          Model model) {
 
-        userService.saveNewUser(userSignupDTO);
-        log.info("{}", userSignupDTO);
+        boolean isFormValid = true;
+
+        if (StringUtils.isEmpty(userSignupDto.getFirstName())) {
+            model.addAttribute("firstNameError", "First Name cannot be empty");
+            isFormValid = false;
+        }
+
+        if (StringUtils.isEmpty(userSignupDto.getLastName())) {
+            model.addAttribute("lastNameError", "Last Name cannot be empty");
+            isFormValid = false;
+        }
+
+        if (StringUtils.isEmpty(userSignupDto.getPassword2())) {
+            model.addAttribute("password2Error", "Password confirmation cannot be empty");
+            isFormValid = false;
+        }
+
+        if (userSignupDto.getPassword() != null && !userSignupDto.getPassword().equals(userSignupDto.getPassword2())) {
+            model.addAttribute("passwordError", "Passwords are different!");
+            isFormValid = false;
+        }
+
+        if (!isFormValid) {
+            return "signup";
+        }
+
+        if (!userService.saveNewUser(userSignupDto)) {
+            model.addAttribute("emailError", "User exists!");
+            return "signup";
+        }
+
+        return "redirect:/login";
     }
 
     @ExceptionHandler(RuntimeException.class)

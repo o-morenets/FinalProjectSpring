@@ -8,6 +8,6 @@
             </button>
         </form>
     <#else>
-        <a class="btn btn-primary" href="/login" role="button"><@s.message "menu.login" /></a>
+        <a class="btn btn-primary" href="/login" role="button"><@s.message "menu.login"/></a>
     </#if>
 </#macro>

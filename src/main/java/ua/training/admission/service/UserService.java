@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.training.admission.dto.UserLoginDTO;
-import ua.training.admission.dto.UserSignupDTO;
+import ua.training.admission.dto.UserLoginDto;
+import ua.training.admission.dto.UserSignupDto;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.User;
-import ua.training.admission.exception.NotUniqueLoginException;
 import ua.training.admission.repository.UserRepository;
 
 import java.sql.SQLException;
@@ -29,26 +28,27 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> login(UserLoginDTO userLoginDTO) {
+    public Optional<User> login(UserLoginDto userLoginDTO) {
         User user = userRepository.findByUsername(userLoginDTO.getUsername());
         return Optional.of(user);
     }
 
-    public void saveNewUser(UserSignupDTO userSignupDTO) {
+    public boolean saveNewUser(UserSignupDto userSignupDto) {
         User user = User.builder()
-                .username(userSignupDTO.getUsername())
-                .password(new BCryptPasswordEncoder().encode(userSignupDTO.getPassword()))
+                .username(userSignupDto.getUsername())
+                .password(new BCryptPasswordEncoder().encode(userSignupDto.getPassword()))
                 .authorities(ImmutableList.of(Role.ROLE_USER))
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .enabled(true)
-                .firstName(userSignupDTO.getFirstName())
-                .lastName(userSignupDTO.getLastName())
+                .firstName(userSignupDto.getFirstName())
+                .lastName(userSignupDto.getLastName())
                 .build();
 
         try {
             userRepository.save(user);
+
         } catch (Exception ex) {
             int errorCode = 0;
 
@@ -61,10 +61,13 @@ public class UserService {
 
             if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
                 log.warn("Email already exists");
-                throw new NotUniqueLoginException("Email already exists", userSignupDTO);
+
+                return false;
             }
 
             throw ex;
         }
+
+        return true;
     }
 }
