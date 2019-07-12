@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         log.info("Found User: " + user);
 
-        // [ROLE_USER, ROLE_ADMIN,..]
+        // [USER, ADMIN,..]
         List<GrantedAuthority> grantList = user.getAuthorities().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.training.admission.dto.UserSignupDto;
+import ua.training.admission.entity.dto.UserSignupDto;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.User;
 import ua.training.admission.repository.UserRepository;
@@ -30,7 +30,8 @@ public class UserService {
         User user = User.builder()
                 .username(userSignupDto.getUsername())
                 .password(new BCryptPasswordEncoder().encode(userSignupDto.getPassword()))
-                .authorities(ImmutableList.of(Role.ROLE_USER))
+                .email(userSignupDto.getEmail())
+                .authorities(ImmutableList.of(Role.USER))
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)

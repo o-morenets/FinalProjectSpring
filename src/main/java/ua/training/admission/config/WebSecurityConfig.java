@@ -36,17 +36,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* The pages does not require login */
         http.authorizeRequests()
-                .antMatchers("/", "/signup").permitAll();
+                .antMatchers("/", "/signup", "/users", "/users/*").permitAll();
 
-        /* All roles */
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/users/{userId}")
-                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+/*
+        */
+/* All roles *//*
 
-        /* ROLE_ADMIN */
         http.authorizeRequests()
-                .antMatchers("/users/*")
-                .access("hasRole('ROLE_ADMIN')");
+                .antMatchers(HttpMethod.GET, "/users/*") // FIXME {userId}
+                .access("hasAnyRole('USER', 'ADMIN')");
+
+        */
+/* ADMIN *//*
+
+        http.authorizeRequests()
+                .antMatchers("/users")
+                .access("hasRole('ADMIN')");
+*/
 
 		/*
 		 When the user has logged in as XX.

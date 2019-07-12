@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.training.admission.dto.UserSignupDto;
+import ua.training.admission.entity.dto.UserSignupDto;
 import ua.training.admission.entity.User;
 import ua.training.admission.service.UserService;
 

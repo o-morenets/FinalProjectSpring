@@ -21,7 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "usr")
+@Table(name = "usr") // TODO add UNIQUE constraint
 public class User implements UserDetails {
 
     @Id
@@ -67,8 +67,4 @@ public class User implements UserDetails {
     @JoinColumn(name = "speciality_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Speciality speciality;
-
-    public boolean isAdmin() {
-        return authorities.contains(Role.ROLE_ADMIN);
-    }
 }

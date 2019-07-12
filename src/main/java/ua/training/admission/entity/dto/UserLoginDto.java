@@ -1,4 +1,4 @@
-package ua.training.admission.dto;
+package ua.training.admission.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -119,14 +119,17 @@
 </#macro>
 
 <#macro logout>
+    <#include "security.ftl">
     <#import "/spring.ftl" as s/>
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn btn-primary" type="submit">
-            <#if user??>
+
+    <#if known>
+        <form action="/logout" method="post">
+            <button class="btn btn-secondary" type="submit">
                 <@s.message "menu.logout" />
-            <#else>
-                <@s.message "menu.login"/>
-            </#if></button>
-    </form>
+            </button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        </form>
+    <#else>
+        <a class="btn btn-primary" href="/login" role="button"><@s.message "menu.login" /></a>
+    </#if>
 </#macro>
