@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "APP_USER_UK", columnNames = "email")})
+@Table(name = "usr")
 public class User implements UserDetails {
 
     @Id
@@ -33,13 +34,15 @@ public class User implements UserDetails {
     @Column(name = "role_name")
     private Collection<Role> authorities;
 
-    @NotNull
-    @Size(max = 128)
+    @NotBlank(message = "Username cannot be empty")
+    private String username;
+
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    @NotBlank
-    @Column(name = "email")
-    private String username;
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
+    private String email;
 
     private boolean accountNonExpired;
 

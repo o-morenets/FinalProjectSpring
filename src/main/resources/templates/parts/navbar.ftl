@@ -1,4 +1,5 @@
 <#include "security.ftl">
+<#import "login.ftl" as l>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/"><@s.message "admission.title"/></a>
@@ -32,7 +33,7 @@
                 </li>
             </ul>
         </#if>
-        <#include "logout.ftl">
+        <@l.logout />
         <#include "lang.ftl">
     </div>
 </nav>

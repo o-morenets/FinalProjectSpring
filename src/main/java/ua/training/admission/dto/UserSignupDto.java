@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserSignupDto {
 
-    private String firstName;
-    private String lastName;
     private String username;
     private String password;
     private String password2;
+    private String email;
+    private String firstName;
+    private String lastName;
 }

@@ -11,9 +11,10 @@
                         <thead>
                         <tr>
                             <th><@s.message "allUsers.panel.id"/></th>
+                            <th><@s.message "allUsers.panel.username"/></th>
+                            <th><@s.message "allUsers.panel.email"/></th>
                             <th><@s.message "allUsers.panel.firstName"/></th>
                             <th><@s.message "allUsers.panel.lastName"/></th>
-                            <th><@s.message "allUsers.panel.email"/></th>
                             <th><@s.message "allUsers.panel.roles"/></th>
                             <th><@s.message "allUsers.panel.action"/></th>
                         </tr>
@@ -22,9 +23,10 @@
                         <#list users as user>
                             <tr>
                                 <td>${user.id}</td>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>
-                                <td>${user.username}</td>
                                 <td><#list user.authorities as role>${role}<#sep>, </#list></td>
                                 <td><a href="/users/${user.id}">edit</a></td>
                             </tr>

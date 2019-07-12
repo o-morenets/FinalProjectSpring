@@ -10,16 +10,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.training.admission.dto.UserSignupDto;
+import ua.training.admission.entity.User;
 import ua.training.admission.service.UserService;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
-public class RegFormController {
+public class RegistrationController {
 
     private final UserService userService;
 
     @Autowired
-    public RegFormController(UserService userService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -29,10 +32,10 @@ public class RegFormController {
     }
 
     @PostMapping("/signup")
-    public String addUser(UserSignupDto userSignupDto, Model model) {
+    public String addUser(UserSignupDto userSignupDto, Model model, @Valid User user) {
 
-        String returnPage = "redirect:/login";
         boolean isFormValid = true;
+        String returnPage = "redirect:/login";
 
         if (StringUtils.isEmpty(userSignupDto.getFirstName())) {
             model.addAttribute("firstNameError", "First Name cannot be empty");

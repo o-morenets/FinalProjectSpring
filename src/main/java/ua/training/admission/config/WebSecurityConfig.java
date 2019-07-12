@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/signup").permitAll();
 
-        /* ROLE_USER */
+        /* All roles */
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/users/{userId}")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
@@ -59,13 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /* Config for Login Form */
         http.authorizeRequests()
                 .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll();
-
-        /* Config Remember Me. */
-        http.authorizeRequests()
-                .and()
-                .rememberMe().tokenRepository(this.persistentTokenRepository())
-                .tokenValiditySeconds(20 * 60); // 20 min
+                .and().logout().permitAll()
+                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60);
     }
 
     @Autowired
