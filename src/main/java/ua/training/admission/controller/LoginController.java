@@ -12,7 +12,7 @@ import ua.training.admission.entity.User;
 
 @Slf4j
 @Controller
-public class LoginFormController {
+public class LoginController {
 
     @GetMapping("/login")
     public String login(@RequestParam(name = "error", required = false) String error,

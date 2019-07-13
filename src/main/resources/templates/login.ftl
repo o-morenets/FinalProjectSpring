@@ -3,15 +3,27 @@
 <#import "/spring.ftl" as s/>
 
 <@c.page>
-    <#if logout>
-        <div class="alert alert-primary" role="alert">
-            <@s.message "login.panel.alert.logout"/>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <#if logout>
+                        <div class="alert alert-primary" role="alert">
+                            <@s.message "login.panel.alert.logout"/>
+                        </div>
+                    </#if>
+                    <#if error>
+                        <div class="alert alert-danger" role="alert">
+                            <@s.message "login.panel.alert.error"/>
+                        </div>
+                    </#if>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <@l.login "/login" false/>
+                </div>
+            </div>
         </div>
-    </#if>
-    <#if error>
-        <div class="alert alert-danger" role="alert">
-            <@s.message "login.panel.alert.error"/>
-        </div>
-    </#if>
-    <@l.login "/login" false/>
+    </div>
 </@c.page>

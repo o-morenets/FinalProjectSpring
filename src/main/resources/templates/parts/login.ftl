@@ -24,20 +24,15 @@
         </div>
         <#if !isRegisterForm>
             <div class="form-group-row">
-                <div class="col-sm-offset-2 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-6 checkbox">
+                <div class="col-sm-offset-2 col-12">
+                    <div class="row justify-content-between">
+                        <div class="col-md-7 mt-2 checkbox">
                             <label>
                                 <input type="checkbox" name='remember-me'> <@s.message "login.panel.rememberMe"/>
                             </label>
                         </div>
-                        <div class="col-sm-6">
-                            <ul class="nav justify-content-end">
-                                <li class="nav-item">
-                                    <a class="nav-link active"
-                                       href="/signup"><@s.message "login.panel.signup"/></a>
-                                </li>
-                            </ul>
+                        <div class="col-md-5 mt-2">
+                            <p class="text-right"><a href="/signup"><@s.message "login.panel.signup"/></a></p>
                         </div>
                     </div>
                 </div>
@@ -104,7 +99,7 @@
             </div>
         </#if>
         <div class="form-group-row">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-2 col-sm-6 mt-2">
                 <button id="btnSubmit" type="submit" class="btn btn-success">
                     <#if isRegisterForm>
                         <@s.message "signup.panel.button.signup"/>

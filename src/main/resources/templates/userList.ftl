@@ -16,19 +16,21 @@
                             <th><@s.message "allUsers.panel.firstName"/></th>
                             <th><@s.message "allUsers.panel.lastName"/></th>
                             <th><@s.message "allUsers.panel.roles"/></th>
+                            <th><@s.message "allUsers.panel.speciality"/></th>
                             <th><@s.message "allUsers.panel.action"/></th>
                         </tr>
                         </thead>
                         <tbody>
                         <#list users as user>
                             <tr>
-                                <td>${user.id}</td>
-                                <td>${user.username}</td>
-                                <td>${user.email}</td>
-                                <td>${user.firstName}</td>
-                                <td>${user.lastName}</td>
-                                <td><#list user.authorities as role>${role}<#sep>, </#list></td>
-                                <td><a href="/users/${user.id}">edit</a></td>
+                                <td>${user.getId()}</td>
+                                <td>${user.getUsername()}</td>
+                                <td>${user.getEmail()}</td>
+                                <td>${user.getFirstName()}</td>
+                                <td>${user.getLastName()}</td>
+                                <td><#list user.getAuthorities() as role>${role}<#sep>, </#list></td>
+                                <td><#if user.getSpeciality()??>${user.getSpeciality().getName()}<#else>---</#if></td>
+                                <td><a href="/users/${user.getId()}">edit</a></td>
                             </tr>
                         </#list>
                         </tbody>
