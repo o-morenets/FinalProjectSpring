@@ -32,8 +32,8 @@ public class User implements UserDetails {
     @NotBlank(message = "form.invalid.password")
     private String password;
 
-    @Email(message = "Email is not correct")
-    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "form.invalid.email.incorrect")
+    @NotBlank(message = "form.invalid.email.empty")
     private String email;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

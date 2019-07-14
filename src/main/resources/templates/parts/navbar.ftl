@@ -14,7 +14,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/"><@s.message "admission.homePage"/></a>
             </li>
-            <#if user??>
+            <#if known>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/profile">Profile</a>
                 </li>
@@ -25,7 +25,7 @@
                 </li>
             </#if>
         </ul>
-        <#if name??>
+        <#if known>
             <div class="navbar-text mr-3">${name}</div>
         <#else>
             <ul class="navbar-nav mr-3">

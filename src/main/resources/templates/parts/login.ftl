@@ -78,7 +78,7 @@
                        name="email">
                 <#if emailError??>
                     <div class="invalid-feedback">
-                        <@s.message "form.invalid.email"/>
+                        <@s.message "${emailError}"/>
                     </div>
                 </#if>
             </div>
