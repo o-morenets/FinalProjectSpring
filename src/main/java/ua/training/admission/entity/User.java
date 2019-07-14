@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -21,28 +19,28 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "usr") // TODO add UNIQUE constraint
+@Table(name = "usr", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role_name")
-    private Collection<Role> authorities;
-
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlank(message = "form.invalid.username.empty")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty")
+    @NotBlank(message = "form.invalid.password")
     private String password;
 
     @Email(message = "Email is not correct")
     @NotBlank(message = "Email cannot be empty")
     private String email;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
+    private Collection<Role> authorities;
 
     private boolean accountNonExpired;
 
@@ -52,11 +50,11 @@ public class User implements UserDetails {
 
     private boolean enabled;
 
-    @NotBlank
+    @NotBlank(message = "First Name cannot be empty")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last Name cannot be empty")
     @Column(name = "last_name")
     private String lastName;
 

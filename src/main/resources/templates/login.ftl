@@ -9,12 +9,12 @@
                 <div class="col">
                     <#if logout>
                         <div class="alert alert-primary" role="alert">
-                            <@s.message "login.panel.alert.logout"/>
+                            <@s.message "form.alert.logout"/>
                         </div>
                     </#if>
                     <#if error>
                         <div class="alert alert-danger" role="alert">
-                            <@s.message "login.panel.alert.error"/>
+                            <@s.message "form.alert.error"/>
                         </div>
                     </#if>
                 </div>

@@ -25,12 +25,12 @@
                 </li>
             </#if>
         </ul>
-        <#if user??>
+        <#if name??>
             <div class="navbar-text mr-3">${name}</div>
         <#else>
             <ul class="navbar-nav mr-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="/signup"><@s.message "menu.signup" /></a>
+                    <a class="nav-link" href="/signup"><@s.message "menu.signup"/></a>
                 </li>
             </ul>
         </#if>

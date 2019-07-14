@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.Speciality;
 import ua.training.admission.entity.User;
-import ua.training.admission.entity.dto.UserSignupDto;
+import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
 import ua.training.admission.repository.UserRepository;
 
@@ -37,18 +37,18 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean createUser(UserSignupDto userSignupDto) {
+    public void createUser(User userDto) {
         User user = User.builder()
-                .username(userSignupDto.getUsername())
-                .password(new BCryptPasswordEncoder().encode(userSignupDto.getPassword()))
-                .email(userSignupDto.getEmail())
+                .username(userDto.getUsername())
+                .password(new BCryptPasswordEncoder().encode(userDto.getPassword()))
+                .email(userDto.getEmail())
                 .authorities(Collections.singleton((Role.USER)))
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .enabled(true)
-                .firstName(userSignupDto.getFirstName())
-                .lastName(userSignupDto.getLastName())
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
                 .build();
 
         try {
@@ -65,15 +65,13 @@ public class UserService {
             }
 
             if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
-                log.warn("Email already exists");
+                log.warn("User already exists");
 
-                return false;
+                throw new NotUniqueUsernameException("User already exists");
             }
 
             throw ex;
         }
-
-        return true;
     }
 
     public void updateProfile(User user, String email, String lastName, String firstName) {

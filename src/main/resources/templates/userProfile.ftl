@@ -8,7 +8,7 @@
             <div class="col-sm-6">
                 <label>
                     <input type="email" name="email" class="form-control" placeholder="some@some.com"
-                           value="${user.getEmail()!''}" />
+                           value="${user.getEmail()!''}"/>
                 </label>
             </div>
         </div>
