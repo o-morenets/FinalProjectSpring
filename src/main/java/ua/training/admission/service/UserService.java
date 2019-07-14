@@ -33,6 +33,10 @@ public class UserService {
         this.specialityRepository = specialityRepository;
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     public boolean createUser(UserSignupDto userSignupDto) {
         User user = User.builder()
                 .username(userSignupDto.getUsername())
@@ -72,10 +76,6 @@ public class UserService {
         return true;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
     public void updateProfile(User user, String email, String lastName, String firstName) {
         user.setEmail(email);
         user.setFirstName(firstName);
@@ -83,7 +83,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void saveUser(User user, Map<String, String> form) {
+    public void updateSpeciality(User user, Map<String, String> form) {
         Optional<Speciality> speciality = Optional.empty();
         for (String key : form.keySet()) {
             final String spec_ = "spec_";

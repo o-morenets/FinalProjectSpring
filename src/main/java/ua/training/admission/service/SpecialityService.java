@@ -10,8 +10,7 @@ import java.util.List;
 @Service
 public class SpecialityService {
 
-    final
-    SpecialityRepository specialityRepository;
+    private final SpecialityRepository specialityRepository;
 
     @Autowired
     public SpecialityService(SpecialityRepository specialityRepository) {

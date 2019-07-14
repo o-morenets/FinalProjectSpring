@@ -1,5 +1,6 @@
 <#include "security.ftl">
 <#import "login.ftl" as l>
+<#import "/spring.ftl" as s/>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/"><@s.message "admission.title"/></a>

@@ -1,5 +1,6 @@
 <#macro login path isRegisterForm>
     <#import "/spring.ftl" as s/>
+
     <form action="${path}" method="post">
         <div class="form-group-row">
             <label id="inputUsernameLabel"

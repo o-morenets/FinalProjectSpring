@@ -32,7 +32,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/signup")
-    public String addUser(UserSignupDto userSignupDto, Model model, @Valid User user) {
+    public String addUser(UserSignupDto userSignupDto, Model model) {
 
         boolean isFormValid = true;
         String returnPage = "redirect:/login";

@@ -36,35 +36,29 @@ public class UserController {
     }
 
     @GetMapping("{user}")
-    public String userInfo(@PathVariable User user, Model model) {
+    public String userSpeciality(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("specialities", specialityService.findAll());
 
-        return "userEdit";
+        return "userSpeciality";
     }
 
     @PostMapping
-    public String userSave(
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
-    ) {
-        userService.saveUser(user, form);
+    public String userSpeciality(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
+        userService.updateSpeciality(user, form);
 
         return "redirect:/users";
     }
 
-    // FIXME - profile does not work!!!
     @GetMapping("profile")
-    public String userProfile(Model model, @AuthenticationPrincipal User user) {
-        log.info("{}", user);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
+    public String userProfile(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
 
-        return "profile";
+        return "userProfile";
     }
 
     @PostMapping("profile")
-    public String updateProfile(
+    public String userProfile(
             @AuthenticationPrincipal User user,
             @RequestParam String email,
             @RequestParam String firstName,
