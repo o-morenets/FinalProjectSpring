@@ -26,8 +26,6 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private Set<SubjectGrade> grades;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "speciality_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Speciality speciality;
+    @ManyToMany(mappedBy = "subjects")
+    private Set<Speciality> specialities;
 }
