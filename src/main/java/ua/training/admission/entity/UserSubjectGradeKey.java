@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Embeddable
-public class UserGradeKey implements Serializable {
+public class UserSubjectGradeKey implements Serializable {
 
     @Column(name = "user_id")
     private Long userId;

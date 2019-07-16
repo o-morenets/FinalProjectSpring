@@ -2,6 +2,7 @@ package ua.training.admission.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,20 +10,19 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 public class SubjectGrade {
 
     @EmbeddedId
-    private UserGradeKey id;
+    private UserSubjectGradeKey id;
 
-    @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
     private User user;
 
-    @ManyToOne
-    @MapsId("subject_id")
-    @JoinColumn(name = "subject_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("subjectId")
     private Subject subject;
 
     private int grade;

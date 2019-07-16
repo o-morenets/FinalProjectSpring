@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping("profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        userService.getOne(principal.getId()).ifPresent(user -> model.addAttribute("principal", user));
+        userService.getOne(principal.getId()).ifPresent(user -> model.addAttribute("usr", user));
         model.addAttribute("grades", subjectGradeService.getUserGrades(principal));
 
         return "userProfile";

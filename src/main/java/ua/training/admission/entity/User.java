@@ -58,7 +58,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private Set<SubjectGrade> grades;
 
     @ManyToOne(fetch = FetchType.EAGER)
