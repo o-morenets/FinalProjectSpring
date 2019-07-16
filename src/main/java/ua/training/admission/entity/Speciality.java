@@ -22,8 +22,7 @@ public class Speciality {
     private String name;
 
     @ManyToMany
-    @JoinTable(
-            name = "speciality_subject",
+    @JoinTable(name = "speciality_subject",
             joinColumns = @JoinColumn(name = "speciality_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects;

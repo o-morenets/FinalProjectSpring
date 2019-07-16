@@ -3,6 +3,7 @@ package ua.training.admission.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,28 +37,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* The pages does not require login */
         http.authorizeRequests()
-                .antMatchers("/", "/signup", "/users", "/users/*").permitAll();
+                .antMatchers("/", "/signup").permitAll();
 
-/*
-        */
-/* All roles *//*
-
+        /* USER */
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/users/*") // FIXME {userId}
-                .access("hasAnyRole('USER', 'ADMIN')");
+                .antMatchers("users/profile")
+                .access("hasRole('USER')");
 
-        */
-/* ADMIN *//*
-
+        /* ADMIN */
         http.authorizeRequests()
-                .antMatchers("/users")
+                .antMatchers("users")
                 .access("hasRole('ADMIN')");
-*/
 
 		/*
 		 When the user has logged in as XX.
-		 But access a page that requires role YY,
-		 AccessDeniedException will be thrown.
+		 But access a page that requires role YY, AccessDeniedException will be thrown.
 		*/
         http.authorizeRequests()
                 .and().exceptionHandling().accessDeniedPage("/403");

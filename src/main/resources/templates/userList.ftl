@@ -5,19 +5,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><@s.message "allUsers.panel.title"/></div>
+                <div class="panel-heading"><@s.message "userList.panel.title"/></div>
                 <div class="panel-body">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th><@s.message "allUsers.panel.id"/></th>
-                            <th><@s.message "allUsers.panel.username"/></th>
-                            <th><@s.message "allUsers.panel.email"/></th>
-                            <th><@s.message "allUsers.panel.firstName"/></th>
-                            <th><@s.message "allUsers.panel.lastName"/></th>
-                            <th><@s.message "allUsers.panel.roles"/></th>
-                            <th><@s.message "allUsers.panel.speciality"/></th>
-                            <th><@s.message "allUsers.panel.action"/></th>
+                            <th><@s.message "user.id"/></th>
+                            <th><@s.message "user.username"/></th>
+                            <th><@s.message "user.email"/></th>
+                            <th><@s.message "user.firstName"/></th>
+                            <th><@s.message "user.lastName"/></th>
+                            <th><@s.message "user.roles"/></th>
+                            <th><@s.message "user.speciality.name"/></th>
+                            <th><@s.message "userList.link.action"/></th>
                         </tr>
                         </thead>
                         <tbody>

@@ -37,6 +37,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Optional<User> getOne(Long id) {
+        return Optional.of(userRepository.getOne(id));
+    }
+
     public void createUser(User userDto) {
         User user = User.builder()
                 .username(userDto.getUsername())
@@ -72,13 +76,6 @@ public class UserService {
 
             throw ex;
         }
-    }
-
-    public void updateProfile(User user, String email, String lastName, String firstName) {
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        userRepository.save(user);
     }
 
     public void updateSpeciality(User user, Map<String, String> form) {

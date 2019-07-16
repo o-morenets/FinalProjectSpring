@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.training.admission.entity.dto.UserSignupDto;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.service.UserService;
@@ -33,12 +32,12 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("/signup")
+    @GetMapping("signup")
     public String signUp() {
         return "signup";
     }
 
-    @PostMapping("/signup")
+    @PostMapping("signup")
     public String createUser(
             @RequestParam("password2") String passwordConfirm,
             @Valid User user,
@@ -47,7 +46,7 @@ public class RegistrationController {
     ) {
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if (isConfirmEmpty) {
-            model.addAttribute("password2Error", "form.invalid.password2");
+            model.addAttribute("password2Error", "form.invalid.passwordRetype.empty");
         }
 
         final boolean passwordsDifferent = user.getPassword() != null && !user.getPassword().equals(passwordConfirm);

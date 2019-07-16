@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
-@RequestMapping("/spec")
+@RequestMapping("spec")
 public class SpecialityController {
 
     private final SpecialityRepository specialityRepository;

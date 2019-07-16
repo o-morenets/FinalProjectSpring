@@ -15,14 +15,15 @@
                 <a class="nav-link" href="/"><@s.message "admission.homePage"/></a>
             </li>
             <#if known>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/profile">Profile</a>
-                </li>
-            </#if>
-            <#if isAdmin>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users">User list</a>
-                </li>
+                <#if isAdmin>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users">Grades</a>
+                    </li>
+                <#else>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/profile"><@s.message "menu.user.profile"/></a>
+                    </li>
+                </#if>
             </#if>
         </ul>
         <#if known>

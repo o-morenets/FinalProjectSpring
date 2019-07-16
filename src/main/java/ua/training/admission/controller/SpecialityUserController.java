@@ -15,7 +15,7 @@ import ua.training.admission.repository.UserRepository;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/specialities")
+@RequestMapping("specialities")
 public class SpecialityUserController {
 
     private final UserRepository userRepository;
@@ -27,14 +27,14 @@ public class SpecialityUserController {
         this.specialityRepository = specialityRepository;
     }
 
-    @GetMapping("/{specialityId}/users")
+    @GetMapping("{specialityId}/users")
     public Page<User> getAllUsersBySpecialityId(@PathVariable(value = "specialityId") Long specialityId,
                                                 Pageable pageable) {
         
         return userRepository.findBySpecialityId(specialityId, pageable);
     }
 
-    @PostMapping(value = "/{specialityId}/users",
+    @PostMapping(value = "{specialityId}/users",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User createUser(@PathVariable(value = "specialityId") Long specialityId,
@@ -46,7 +46,7 @@ public class SpecialityUserController {
         }).orElseThrow(() -> new ResourceNotFoundException("SpecialityId " + specialityId + " not found"));
     }
 
-    @PutMapping("/{specialityId}/users/{userId}")
+    @PutMapping("{specialityId}/users/{userId}")
     public User updateUser(@PathVariable(value = "specialityId") Long specialityId,
                                  @PathVariable(value = "userId") Long userId,
                                  @Valid @RequestBody User userRequest) {
@@ -61,7 +61,7 @@ public class SpecialityUserController {
         }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + "not found"));
     }
 
-    @DeleteMapping("/{specialityId}/users/{userId}")
+    @DeleteMapping("{specialityId}/users/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable(value = "specialityId") Long specialityId,
                                            @PathVariable(value = "userId") Long userId) {
 

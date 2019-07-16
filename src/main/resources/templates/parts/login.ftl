@@ -4,11 +4,11 @@
     <form class="needs-validation" novalidate action="${path}" method="post">
         <div class="form-group-row">
             <label class="control-label"
-                   for="inputUsername"><@s.message "form.control.username"/></label>
+                   for="inputUsername"><@s.message "user.username"/></label>
             <input type="text"
                    class="form-control ${(usernameError??)?string('is-invalid', '')}"
                    id="inputUsername"
-                   placeholder="<@s.message "form.control.username"/>"
+                   placeholder="<@s.message "user.username"/>"
                    value="<#if user??>${user.username}</#if>"
                    required
                    autofocus
@@ -21,11 +21,11 @@
         </div>
         <div class="form-group-row">
             <label class="control-label"
-                   for="inputPassword"><@s.message "form.control.password"/></label>
+                   for="inputPassword"><@s.message "user.password"/></label>
             <input type="password"
                    class="form-control ${(passwordError??)?string('is-invalid', '')}"
                    id="inputPassword"
-                   placeholder="<@s.message "form.control.password"/>"
+                   placeholder="<@s.message "user.password"/>"
                    required
                    name="password">
             <#if passwordError??>
@@ -44,7 +44,7 @@
                             </label>
                         </div>
                         <div class="col-md-5 mt-2">
-                            <p class="text-right"><a href="/signup"><@s.message "form.link.signup"/></a></p>
+                            <p class="text-right"><a href="/signup"><@s.message "form.control.signup"/></a></p>
                         </div>
                     </div>
                 </div>
@@ -68,11 +68,11 @@
             </div>
             <div class="form-group-row">
                 <label class="control-label"
-                       for="inputEmail"><@s.message "form.control.email"/></label>
+                       for="inputEmail"><@s.message "user.email"/></label>
                 <input type="email"
                        class="form-control ${(emailError??)?string('is-invalid', '')}"
                        id="inputEmail"
-                       placeholder="<@s.message "form.control.email"/>"
+                       placeholder="<@s.message "user.email"/>"
                        value="<#if user??>${user.email}</#if>"
                        required
                        name="email">
@@ -84,11 +84,11 @@
             </div>
             <div class="form-group-row">
                 <label class="control-label"
-                       for="inputFirstName"><@s.message "form.control.firstName"/></label>
+                       for="inputFirstName"><@s.message "user.firstName"/></label>
                 <input type="text"
                        class="form-control ${(firstNameError??)?string('is-invalid', '')}"
                        id="inputFirstName"
-                       placeholder="<@s.message "form.control.firstName"/>"
+                       placeholder="<@s.message "user.firstName"/>"
                        value="<#if user??>${user.firstName}</#if>"
                        required
                        name="firstName">
@@ -100,11 +100,11 @@
             </div>
             <div class="form-group-row">
                 <label class="control-label"
-                       for="inputLastName"><@s.message "form.control.lastName"/></label>
+                       for="inputLastName"><@s.message "user.lastName"/></label>
                 <input type="text"
                        class="form-control ${(lastNameError??)?string('is-invalid', '')}"
                        id="inputLastName"
-                       placeholder="<@s.message "form.control.lastName"/>"
+                       placeholder="<@s.message "user.lastName"/>"
                        value="<#if user??>${user.lastName}</#if>"
                        required
                        name="lastName">
@@ -119,9 +119,9 @@
             <div class="col-sm-offset-2 col-sm-6 mt-2">
                 <button id="btnSubmit" type="submit" class="btn btn-success">
                     <#if isRegisterForm>
-                        <@s.message "form.button.signup"/>
+                        <@s.message "form.control.signup"/>
                     <#else>
-                        <@s.message "form.button.login"/>
+                        <@s.message "form.control.login"/>
                     </#if>
                 </button>
             </div>

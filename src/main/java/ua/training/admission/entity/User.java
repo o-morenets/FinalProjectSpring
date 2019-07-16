@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @NotBlank(message = "form.invalid.username.empty")
     private String username;
 
-    @NotBlank(message = "form.invalid.password")
+    @NotBlank(message = "form.invalid.password.empty")
     private String password;
 
     @Email(message = "form.invalid.email.incorrect")
@@ -58,7 +58,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<SubjectGrade> grades;
 
     @ManyToOne(fetch = FetchType.EAGER)
