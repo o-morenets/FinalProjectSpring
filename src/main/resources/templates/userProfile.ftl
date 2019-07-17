@@ -7,15 +7,27 @@
     <#if usr.getSpeciality()??>
         <span class="badge badge-info">${usr.getSpeciality().getName()}</span>
         <br/>
-        Grades:
-        <#list grades as grade>
-            <#if grade??>
+        <#if grades?has_content>
+            Grades:
+            <table>
+                <thead>
                 <tr>
-                    <td>${grade.getSubject()}</td>
-                    <td>${grade.getGrade()}</td>
+                    <th>Subject</th>
+                    <th>Grade</th>
                 </tr>
-            </#if>
-        </#list>
+                </thead>
+                <tbody>
+                <#list grades as grade>
+                    <tr>
+                        <td>${grade.getSubject().getName()}</td>
+                        <td>${grade.getGrade()}</td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        <#else>
+            - No grades -
+        </#if>
     <#else>
         <@s.message "user.speciality.notSelected"/>
         <a href="${usr.getId()}" class="badge badge-warning">Select</a>
