@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUsername(String username); // FIXME Optional
+    Optional<User> findByUsername(String username);
 
     Page<User> findBySpecialityId(Long specialityId, Pageable pageable);
 

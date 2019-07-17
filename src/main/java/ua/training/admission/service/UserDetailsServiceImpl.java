@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import ua.training.admission.entity.User;
 import ua.training.admission.repository.UserRepository;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -23,13 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsername(username);
 
-        if (user == null) {
-            log.warn("User not found! " + username);
-            throw new UsernameNotFoundException("User " + username + " was not found in the database");
-        }
-
-        return user;
+        return user.orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found in the database"));
     }
 }
