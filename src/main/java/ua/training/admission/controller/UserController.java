@@ -54,7 +54,7 @@ public class UserController {
     @GetMapping("profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
         userService.getOne(principal.getId()).ifPresent(user -> model.addAttribute("usr", user));
-        model.addAttribute("grades", subjectGradeService.getUserGrades(principal));
+        model.addAttribute("gradesDto", subjectGradeService.getUserGradesDto(principal));
 
         return "userProfile";
     }

@@ -7,7 +7,7 @@
     <#if usr.getSpeciality()??>
         <span class="badge badge-info">${usr.getSpeciality().getName()}</span>
         <br/>
-        <#if grades?has_content>
+        <#if gradesDto?has_content>
             Grades:
             <table>
                 <thead>
@@ -17,7 +17,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#list grades as grade>
+                <#list gradesDto as grade>
                     <tr>
                         <td>${grade.getSubject().getName()}</td>
                         <td>${grade.getGrade()}</td>
