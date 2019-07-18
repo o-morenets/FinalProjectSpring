@@ -7,11 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.User;
+import ua.training.admission.entity.dto.SubjectGradeDto;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -57,7 +57,8 @@ public class UserController {
         final Optional<User> usr = userService.getOne(principal.getId());
         usr.ifPresent(user -> {
             model.addAttribute("usr", user);
-            model.addAttribute("gradesDto", subjectGradeService.getUserGradesDto(user));
+            model.addAttribute("gradesDto",
+                    SubjectGradeDto.getUserGradesDto(subjectGradeService.getUserGrades(user)));
         });
 
         return "userProfile";
