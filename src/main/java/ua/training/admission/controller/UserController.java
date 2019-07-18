@@ -12,6 +12,7 @@ import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -45,16 +46,19 @@ public class UserController {
     }
 
     @PostMapping
-    public String updateSpeciality(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
-        userService.updateSpeciality(user, form);
+    public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long value) {
+        userService.updateSpeciality(user, value);
 
         return "redirect:users/profile";
     }
 
     @GetMapping("profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        userService.getOne(principal.getId()).ifPresent(user -> model.addAttribute("usr", user));
-        model.addAttribute("gradesDto", subjectGradeService.getUserGradesDto(principal));
+        final Optional<User> usr = userService.getOne(principal.getId());
+        usr.ifPresent(user -> {
+            model.addAttribute("usr", user);
+            model.addAttribute("gradesDto", subjectGradeService.getUserGradesDto(user));
+        });
 
         return "userProfile";
     }

@@ -1,4 +1,4 @@
-package ua.training.admission.service;
+package ua.training.admission.service.userDetailsServiceImpl;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

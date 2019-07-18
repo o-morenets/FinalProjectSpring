@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.Speciality;
 import ua.training.admission.entity.User;
@@ -78,16 +79,8 @@ public class UserService {
         }
     }
 
-    public void updateSpeciality(User user, Map<String, String> form) {
-        Optional<Speciality> speciality = Optional.empty();
-        for (String key : form.keySet()) {
-            final String spec_ = "spec_";
-            if (key.startsWith(spec_)) {
-                Long id = Long.parseLong(key.replace(spec_, ""));
-                speciality = specialityRepository.findById(id);
-                break;
-            }
-        }
+    public void updateSpeciality(User user, Long specId) {
+        Optional<Speciality> speciality = specialityRepository.findById(specId);
         user.setSpeciality(speciality.orElse(null));
         userRepository.save(user);
     }
