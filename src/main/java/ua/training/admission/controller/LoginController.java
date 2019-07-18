@@ -14,7 +14,7 @@ import ua.training.admission.entity.User;
 @Controller
 public class LoginController {
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login(@RequestParam(name = "error", required = false) String error,
                         @RequestParam(name = "logout", required = false) String logout,
                         Model model) {

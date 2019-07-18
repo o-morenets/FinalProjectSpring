@@ -30,7 +30,7 @@
         </#if>
     <#else>
         <@s.message "user.speciality.notSelected"/>
-        <a href="${usr.getId()}" class="badge badge-warning">Select</a>
+        <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning">Select</a>
     </#if>
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </@c.page>

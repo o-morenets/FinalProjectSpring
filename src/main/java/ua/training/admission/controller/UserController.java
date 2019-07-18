@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.training.admission.entity.Role;
 import ua.training.admission.entity.User;
 import ua.training.admission.entity.dto.SubjectGradeDto;
 import ua.training.admission.service.SpecialityService;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 @Slf4j
 @Controller
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -32,12 +33,12 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userService.findAllByRole(Role.USER));
 
         return "userList";
     }
 
-    @GetMapping("{user}")
+    @GetMapping("/{user}/selectSpec")
     public String selectSpeciality(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("specialities", specialityService.findAll());
@@ -45,14 +46,14 @@ public class UserController {
         return "userSpeciality";
     }
 
-    @PostMapping
+    @PostMapping("/updateSpec")
     public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long value) {
         userService.updateSpeciality(user, value);
 
         return "redirect:users/profile";
     }
 
-    @GetMapping("profile")
+    @GetMapping("/profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
         final Optional<User> usr = userService.getOne(principal.getId());
         usr.ifPresent(user -> {
@@ -62,5 +63,17 @@ public class UserController {
         });
 
         return "userProfile";
+    }
+
+    @GetMapping("/{user}/grades")
+    public String userGrades(@PathVariable User user, Model model) {
+
+        return "userGrades";
+    }
+
+    @PostMapping("/updateGrades")
+    public String updateGrades() {
+
+        return "redirect:/users";
     }
 }

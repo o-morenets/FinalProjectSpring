@@ -3,7 +3,7 @@
 <@c.page>
     ${user.lastName} - choose your speciality
 
-    <form action="/users" method="post">
+    <form action="/users/updateSpec" method="post">
         <div class="form-check">
             <input class="form-check-input" type="radio" name="specRadios" value="-1" id="spec_none" checked>
             <label class="form-check-label" for="spec_none">

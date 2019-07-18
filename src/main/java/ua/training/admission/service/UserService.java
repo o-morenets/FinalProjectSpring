@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.Speciality;
 import ua.training.admission.entity.User;
@@ -16,7 +15,6 @@ import ua.training.admission.repository.UserRepository;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -34,8 +32,8 @@ public class UserService {
         this.specialityRepository = specialityRepository;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAllByRole(Role role) {
+        return userRepository.findByAuthoritiesContains(role);
     }
 
     public Optional<User> getOne(Long id) {
@@ -47,7 +45,7 @@ public class UserService {
                 .username(userDto.getUsername())
                 .password(new BCryptPasswordEncoder().encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-                .authorities(Collections.singleton((Role.USER)))
+                .authorities(Collections.singleton(Role.USER))
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)

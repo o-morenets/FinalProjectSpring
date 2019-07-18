@@ -32,12 +32,12 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("signup")
+    @GetMapping("/signup")
     public String signUp() {
         return "signup";
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public String createUser(
             @RequestParam("password2") String passwordConfirm,
             @Valid User user,
