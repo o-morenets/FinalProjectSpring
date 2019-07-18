@@ -20,7 +20,7 @@ public class SubjectGradeDto {
     private Subject subject;
     private int grade;
 
-    public static List<SubjectGradeDto> getUserGradesDto(List<SubjectGrade> subjectGrades) {
+    public static List<SubjectGradeDto> getUserGradeDtos(List<SubjectGrade> subjectGrades) {
         return subjectGrades.stream()
                 .map(subjectGrade -> SubjectGradeDto.builder()
                         .subject(subjectGrade.getSubject())

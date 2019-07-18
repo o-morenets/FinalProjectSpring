@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface SubjectGradeRepository extends JpaRepository<SubjectGrade, Long> {
 
-/*
     @Query(value = "SELECT sg.* " +
                     "FROM usr u " +
                     "JOIN speciality sp " +
@@ -26,7 +25,6 @@ public interface SubjectGradeRepository extends JpaRepository<SubjectGrade, Long
                     "WHERE u.id = :userId",
             nativeQuery = true)
     List<SubjectGrade> findByUser(@Param("userId") Long userId);
-*/
 
     List<SubjectGrade> findByUser(User user);
 }

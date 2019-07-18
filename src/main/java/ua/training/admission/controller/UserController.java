@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.Role;
+import ua.training.admission.entity.Speciality;
 import ua.training.admission.entity.User;
 import ua.training.admission.entity.dto.SubjectGradeDto;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -56,10 +58,10 @@ public class UserController {
     @GetMapping("/profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
         final Optional<User> usr = userService.getOne(principal.getId());
-        usr.ifPresent(user -> {
-            model.addAttribute("usr", user);
+        usr.ifPresent(u -> {
+            model.addAttribute("usr", u);
             model.addAttribute("gradesDto",
-                    SubjectGradeDto.getUserGradesDto(subjectGradeService.getUserGrades(user)));
+                    SubjectGradeDto.getUserGradeDtos(subjectGradeService.getUserGrades(u)));
         });
 
         return "userProfile";
@@ -67,13 +69,21 @@ public class UserController {
 
     @GetMapping("/{user}/grades")
     public String userGrades(@PathVariable User user, Model model) {
+        final Optional<User> usr = userService.getOne(user.getId());
+        usr.ifPresent(u -> {
+            model.addAttribute("usr", u);
+            final Speciality speciality = u.getSpeciality();
+            final List<SubjectGradeDto> userGradeDtos = SubjectGradeDto.getUserGradeDtos(subjectGradeService.getUserGrades(u));
+
+            model.addAttribute("gradesDto", userGradeDtos);
+        });
 
         return "userGrades";
     }
 
     @PostMapping("/updateGrades")
     public String updateGrades() {
-
+        // TODO
         return "redirect:/users";
     }
 }
