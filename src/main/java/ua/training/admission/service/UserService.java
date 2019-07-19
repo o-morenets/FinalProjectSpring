@@ -7,15 +7,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.Speciality;
+import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
+import ua.training.admission.repository.SubjectGradeRepository;
 import ua.training.admission.repository.UserRepository;
 
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,11 +28,16 @@ public class UserService {
     private static final int SQL_CONSTRAINT_NOT_UNIQUE = 1062;
 
     private final UserRepository userRepository;
+    private final SubjectGradeRepository subjectGradeRepository;
     private final SpecialityRepository specialityRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, SpecialityRepository specialityRepository) {
+    public UserService(UserRepository userRepository,
+                       SubjectGradeRepository subjectGradeRepository,
+                       SpecialityRepository specialityRepository
+    ) {
         this.userRepository = userRepository;
+        this.subjectGradeRepository = subjectGradeRepository;
         this.specialityRepository = specialityRepository;
     }
 
@@ -37,7 +46,7 @@ public class UserService {
     }
 
     public Optional<User> getOne(Long id) {
-        return Optional.of(userRepository.getOne(id));
+        return userRepository.findById(id);
     }
 
     public void createUser(User userDto) {
@@ -81,5 +90,20 @@ public class UserService {
         Optional<Speciality> speciality = specialityRepository.findById(specId);
         user.setSpeciality(speciality.orElse(null));
         userRepository.save(user);
+    }
+
+    public void updateGrades(User user, Map<String, String> form) {
+        final List<SubjectGrade> subjectGradeList = form.entrySet().stream()
+                .filter(entry -> entry.getKey().startsWith("subject_"))
+                .map(entry -> SubjectGrade.builder()
+                        .user(user) // FIXME <<<<<<<<<< User DTO ???
+//                        .subject(subjectRepository.getOne(
+//                                Long.valueOf(entry.getKey().replace("subject_", "")))
+//                        )
+                        .grade(Integer.parseInt(entry.getValue()))
+                        .build())
+                .collect(Collectors.toList());
+
+        subjectGradeRepository.saveAll(subjectGradeList);
     }
 }

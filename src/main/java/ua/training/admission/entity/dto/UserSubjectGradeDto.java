@@ -11,18 +11,20 @@ import java.util.stream.Collectors;
 
 @Getter
 @Builder
-public class SubjectGradeDto {
+public class UserSubjectGradeDto {
 
-    private String name;
+    private String subjectName;
     private Integer grade;
 
-    public static List<SubjectGradeDto> getSubjectGradeDtoList(List<Subject> subjects, List<SubjectGrade> subjectGrades) {
+    public static List<UserSubjectGradeDto> getUserSubjectGradeDtoList(
+            List<Subject> subjects, List<SubjectGrade> subjectGrades
+    ) {
         final Map<Long, Integer> subjectGradeMap = subjectGrades.stream()
                 .collect(Collectors.toMap(subjectGrade -> subjectGrade.getSubject().getId(), SubjectGrade::getGrade));
 
         return subjects.stream()
-                .map(subject -> SubjectGradeDto.builder()
-                        .name(subject.getName())
+                .map(subject -> UserSubjectGradeDto.builder()
+                        .subjectName(subject.getName())
                         .grade(subjectGradeMap.get(subject.getId()))
                         .build())
                 .collect(Collectors.toList());

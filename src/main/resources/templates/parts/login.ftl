@@ -5,14 +5,19 @@
         <div class="form-group-row">
             <label class="control-label"
                    for="inputUsername"><@s.message "user.username"/></label>
-            <input type="text"
-                   class="form-control ${(usernameError??)?string('is-invalid', '')}"
-                   id="inputUsername"
-                   placeholder="<@s.message "user.username"/>"
-                   value="<#if user??>${user.username}</#if>"
-                   required
-                   autofocus
-                   name="username">
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">@</div>
+                </div>
+                <input type="text"
+                       class="form-control ${(usernameError??)?string('is-invalid', '')}"
+                       id="inputUsername"
+                       placeholder="<@s.message "user.username"/>"
+                       value="<#if user??>${user.username}</#if>"
+                       required
+                       autofocus
+                       name="username">
+            </div>
             <#if usernameError??>
                 <div class="invalid-feedback">
                     <@s.message "${usernameError}"/>
@@ -22,12 +27,17 @@
         <div class="form-group-row">
             <label class="control-label"
                    for="inputPassword"><@s.message "user.password"/></label>
-            <input type="password"
-                   class="form-control ${(passwordError??)?string('is-invalid', '')}"
-                   id="inputPassword"
-                   placeholder="<@s.message "user.password"/>"
-                   required
-                   name="password">
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">#</div>
+                </div>
+                <input type="password"
+                       class="form-control ${(passwordError??)?string('is-invalid', '')}"
+                       id="inputPassword"
+                       placeholder="<@s.message "user.password"/>"
+                       required
+                       name="password">
+            </div>
             <#if passwordError??>
                 <div class="invalid-feedback">
                     <@s.message "${passwordError}"/>
@@ -54,12 +64,17 @@
             <div class="form-group-row">
                 <label class="control-label"
                        for="inputPasswordRetype"><@s.message "form.control.passwordRetype"/></label>
-                <input type="password"
-                       class="form-control ${(password2Error??)?string('is-invalid', '')}"
-                       id="inputPasswordRetype"
-                       placeholder="<@s.message "form.control.passwordRetype"/>"
-                       required
-                       name="password2">
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">#</div>
+                    </div>
+                    <input type="password"
+                           class="form-control ${(password2Error??)?string('is-invalid', '')}"
+                           id="inputPasswordRetype"
+                           placeholder="<@s.message "form.control.passwordRetype"/>"
+                           required
+                           name="password2">
+                </div>
                 <#if password2Error??>
                     <div class="invalid-feedback">
                         <@s.message "${password2Error}"/>

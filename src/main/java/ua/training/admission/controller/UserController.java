@@ -7,13 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.*;
-import ua.training.admission.entity.dto.SubjectGradeDto;
+import ua.training.admission.entity.dto.UserSubjectGradeDto;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.SubjectService;
 import ua.training.admission.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -65,26 +66,34 @@ public class UserController {
         final Optional<User> usr = userService.getOne(principal.getId());
         usr.ifPresent(u -> {
             model.addAttribute("usr", u);
-
-            final List<Subject> subjects = subjectService.findBySpeciality(u.getSpeciality());
-            final List<SubjectGrade> subjectGrades = subjectGradeService.getUserGrades(u);
-
-            model.addAttribute("subjectGradeDtoList",
-                    SubjectGradeDto.getSubjectGradeDtoList(subjects, subjectGrades));
+            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(u));
         });
 
-        return "userProfile";
+        return "userGrades";
+    }
+
+    private List<UserSubjectGradeDto> getUserSubjectGradeDtoList(User u) {
+        final List<Subject> subjects = subjectService.findBySpeciality(u.getSpeciality());
+        final List<SubjectGrade> subjectGrades = subjectGradeService.getUserGrades(u);
+
+        return UserSubjectGradeDto.getUserSubjectGradeDtoList(subjects, subjectGrades);
     }
 
     @GetMapping("/{user}/grades")
     public String userGrades(@PathVariable User user, Model model) {
+        final Optional<User> usr = userService.getOne(user.getId());
+        usr.ifPresent(u -> {
+            model.addAttribute("usr", u);
+            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(u));
+        });
 
         return "userGrades";
     }
 
     @PostMapping("/updateGrades")
-    public String updateGrades() {
-        // TODO
+    public String updateGrades(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
+        userService.updateGrades(user, form);
+
         return "redirect:/users";
     }
 }
