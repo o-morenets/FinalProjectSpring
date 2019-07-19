@@ -6,12 +6,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.training.admission.entity.Role;
-import ua.training.admission.entity.Speciality;
-import ua.training.admission.entity.User;
+import ua.training.admission.entity.*;
+import ua.training.admission.entity.dto.SubjectDto;
 import ua.training.admission.entity.dto.SubjectGradeDto;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
+import ua.training.admission.service.SubjectService;
 import ua.training.admission.service.UserService;
 
 import java.util.List;
@@ -25,12 +25,14 @@ public class UserController {
     private final UserService userService;
     private final SpecialityService specialityService;
     private final SubjectGradeService subjectGradeService;
+    private SubjectService subjectService;
 
     @Autowired
-    public UserController(UserService userService, SpecialityService specialityService, SubjectGradeService subjectGradeService) {
+    public UserController(UserService userService, SpecialityService specialityService, SubjectGradeService subjectGradeService, SubjectService subjectService) {
         this.userService = userService;
         this.specialityService = specialityService;
         this.subjectGradeService = subjectGradeService;
+        this.subjectService = subjectService;
     }
 
     @GetMapping
@@ -60,8 +62,14 @@ public class UserController {
         final Optional<User> usr = userService.getOne(principal.getId());
         usr.ifPresent(u -> {
             model.addAttribute("usr", u);
-            model.addAttribute("gradesDto",
-                    SubjectGradeDto.getUserGradeDtos(subjectGradeService.getUserGrades(u)));
+
+            final List<SubjectGrade> subjectGrades = subjectGradeService.getUserGrades(u);
+            model.addAttribute("subjectGradeDtoList",
+                    SubjectGradeDto.getSubjectGradeDtoList(subjectGrades));
+
+            final List<Subject> subjects = subjectService.findBySpeciality(u.getSpeciality());
+            model.addAttribute("subjectDtoList",
+                    SubjectDto.getSubjectDtoList(subjects, subjectGrades));
         });
 
         return "userProfile";
@@ -73,9 +81,9 @@ public class UserController {
         usr.ifPresent(u -> {
             model.addAttribute("usr", u);
             final Speciality speciality = u.getSpeciality();
-            final List<SubjectGradeDto> userGradeDtos = SubjectGradeDto.getUserGradeDtos(subjectGradeService.getUserGrades(u));
+            final List<SubjectGradeDto> userGradeDtoList = SubjectGradeDto.getSubjectGradeDtoList(subjectGradeService.getUserGrades(u));
 
-            model.addAttribute("gradesDto", userGradeDtos);
+            model.addAttribute("gradesDto", userGradeDtoList);
         });
 
         return "userGrades";

@@ -61,7 +61,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<SubjectGrade> grades;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "speciality_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Speciality speciality;

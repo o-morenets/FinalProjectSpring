@@ -7,8 +7,9 @@
     <#if usr.getSpeciality()??>
         <span class="badge badge-info">${usr.getSpeciality().getName()}</span>
         <br/>
-        <#if gradesDto?has_content>
-            Grades:
+
+        <#if subjectDtoList?has_content>
+            Subjects:
             <table>
                 <thead>
                 <tr>
@@ -17,16 +18,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#list gradesDto as grade>
+                <#list subjectDtoList as subjectDto>
                     <tr>
-                        <td>${grade.getSubject().getName()}</td>
-                        <td>${grade.getGrade()}</td>
+                        <td>${subjectDto.name}</td>
+                        <td><#if subjectDto.grade??>${subjectDto.grade}<#else>---</#if></td>
                     </tr>
                 </#list>
                 </tbody>
             </table>
         <#else>
-            - No grades -
+            - No subjects -
         </#if>
     <#else>
         <@s.message "user.speciality.notSelected"/>
