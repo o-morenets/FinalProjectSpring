@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
-import ua.training.admission.entity.dto.SubjectGradeDto;
 import ua.training.admission.repository.SubjectGradeRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SubjectGradeService {

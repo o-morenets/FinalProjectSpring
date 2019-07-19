@@ -8,7 +8,7 @@
         <span class="badge badge-info">${usr.getSpeciality().getName()}</span>
         <br/>
 
-        <#if subjectDtoList?has_content>
+        <#if subjectGradeDtoList?has_content>
             Subjects:
             <table>
                 <thead>
@@ -18,10 +18,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#list subjectDtoList as subjectDto>
+                <#list subjectGradeDtoList as subjectGradeDto>
                     <tr>
-                        <td>${subjectDto.name}</td>
-                        <td><#if subjectDto.grade??>${subjectDto.grade}<#else>---</#if></td>
+                        <td>${subjectGradeDto.name}</td>
+                        <td><#if subjectGradeDto.grade??>${subjectGradeDto.grade}<#else>---</#if></td>
                     </tr>
                 </#list>
                 </tbody>

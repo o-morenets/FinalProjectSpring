@@ -21,7 +21,7 @@ public class Speciality {
     @NotBlank
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "speciality_subject",
             joinColumns = @JoinColumn(name = "speciality_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))

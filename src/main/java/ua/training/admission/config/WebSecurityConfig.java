@@ -49,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ADMIN')");
 
 		/*
-		 When the user has logged in as XX.
-		 But access a page that requires role YY, AccessDeniedException will be thrown.
+		    When the user has logged in as XX.
+		    But access a page that requires role YY, AccessDeniedException will be thrown.
 		*/
         http.authorizeRequests()
                 .and().exceptionHandling().accessDeniedPage("/403");

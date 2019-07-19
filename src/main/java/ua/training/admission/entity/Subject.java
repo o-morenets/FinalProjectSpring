@@ -13,7 +13,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 public class Subject {
 
@@ -23,9 +22,9 @@ public class Subject {
 
     private String name;
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject")
     private Set<SubjectGrade> grades;
 
-    @ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "subjects")
     private Set<Speciality> specialities;
 }

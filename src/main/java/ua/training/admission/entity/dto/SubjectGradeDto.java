@@ -1,30 +1,29 @@
 package ua.training.admission.entity.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import ua.training.admission.entity.Subject;
 import ua.training.admission.entity.SubjectGrade;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 @Builder
 public class SubjectGradeDto {
 
-    private Subject subject;
-    private int grade;
+    private String name;
+    private Integer grade;
 
-    public static List<SubjectGradeDto> getSubjectGradeDtoList(Collection<SubjectGrade> subjectGrades) {
-        return subjectGrades.stream()
-                .map(subjectGrade -> SubjectGradeDto.builder()
-                        .subject(subjectGrade.getSubject())
-                        .grade(subjectGrade.getGrade())
+    public static List<SubjectGradeDto> getSubjectGradeDtoList(List<Subject> subjects, List<SubjectGrade> subjectGrades) {
+        final Map<Long, Integer> subjectGradeMap = subjectGrades.stream()
+                .collect(Collectors.toMap(subjectGrade -> subjectGrade.getSubject().getId(), SubjectGrade::getGrade));
+
+        return subjects.stream()
+                .map(subject -> SubjectGradeDto.builder()
+                        .name(subject.getName())
+                        .grade(subjectGradeMap.get(subject.getId()))
                         .build())
                 .collect(Collectors.toList());
     }

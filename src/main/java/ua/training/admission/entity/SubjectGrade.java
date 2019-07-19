@@ -2,7 +2,6 @@ package ua.training.admission.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,11 +15,11 @@ public class SubjectGrade {
     @EmbeddedId
     private UserSubjectGradeKey id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @MapsId("userId")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @MapsId("subjectId")
     private Subject subject;
 
