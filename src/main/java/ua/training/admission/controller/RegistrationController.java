@@ -49,7 +49,7 @@ public class RegistrationController {
             model.addAttribute("password2Error", "form.invalid.passwordRetype.empty");
         }
 
-        final boolean passwordsDifferent = user.getPassword() != null && !user.getPassword().equals(passwordConfirm);
+        boolean passwordsDifferent = user.getPassword() != null && !user.getPassword().equals(passwordConfirm);
         if (passwordsDifferent) {
             model.addAttribute("passwordError", "form.invalid.password.different");
             model.addAttribute("password2Error", "form.invalid.password.different");

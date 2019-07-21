@@ -17,11 +17,11 @@ public class SubjectGrade {
     @EmbeddedId
     private UserSubjectGradeKey id;
 
-    @ManyToOne()
+    @ManyToOne
     @MapsId("userId")
     private User user;
 
-    @ManyToOne()
+    @ManyToOne
     @MapsId("subjectId")
     private Subject subject;
 

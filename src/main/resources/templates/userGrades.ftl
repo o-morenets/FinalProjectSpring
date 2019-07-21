@@ -22,12 +22,12 @@
                     <#list userSubjectGradeDtoList as userSubjectGradeDto>
                         <tr>
                             <td>
-                                <label for="subject_${userSubjectGradeDto.subjectName}">${userSubjectGradeDto.subjectName}</label>
+                                <label for="subject_${userSubjectGradeDto.subjectId}">${userSubjectGradeDto.subjectName}</label>
                             </td>
                             <td>
                                 <input type="number"
-                                       id="subject_${userSubjectGradeDto.subjectName}"
-                                       name="subject_${userSubjectGradeDto.subjectName}"
+                                       id="subject_${userSubjectGradeDto.subjectId}"
+                                       name="subject_${userSubjectGradeDto.subjectId}"
                                        value="<#if userSubjectGradeDto.grade??>${userSubjectGradeDto.grade}</#if>"
                                        <#if !isAdmin>disabled</#if>
                                 >

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Builder
 public class UserSubjectGradeDto {
 
+    private Long subjectId;
     private String subjectName;
     private Integer grade;
 
@@ -24,6 +25,7 @@ public class UserSubjectGradeDto {
 
         return subjects.stream()
                 .map(subject -> UserSubjectGradeDto.builder()
+                        .subjectId(subject.getId())
                         .subjectName(subject.getName())
                         .grade(subjectGradeMap.get(subject.getId()))
                         .build())

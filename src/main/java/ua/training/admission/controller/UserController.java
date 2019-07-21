@@ -2,6 +2,9 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +28,7 @@ public class UserController {
     private final UserService userService;
     private final SpecialityService specialityService;
     private final SubjectGradeService subjectGradeService;
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
 
     @Autowired
     public UserController(UserService userService,
@@ -63,10 +66,9 @@ public class UserController {
 
     @GetMapping("/profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        final Optional<User> usr = userService.getOne(principal.getId());
-        usr.ifPresent(u -> {
-            model.addAttribute("usr", u);
-            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(u));
+        userService.findById(principal.getId()).ifPresent(usr -> {
+            model.addAttribute("usr", usr);
+            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
         });
 
         return "userGrades";
@@ -81,10 +83,9 @@ public class UserController {
 
     @GetMapping("/{user}/grades")
     public String userGrades(@PathVariable User user, Model model) {
-        final Optional<User> usr = userService.getOne(user.getId());
-        usr.ifPresent(u -> {
-            model.addAttribute("usr", u);
-            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(u));
+        userService.findById(user.getId()).ifPresent(usr -> {
+            model.addAttribute("usr", usr);
+            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
         });
 
         return "userGrades";
@@ -92,7 +93,7 @@ public class UserController {
 
     @PostMapping("/updateGrades")
     public String updateGrades(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
-        userService.updateGrades(user, form);
+        subjectGradeService.updateGrades(user, form);
 
         return "redirect:/users";
     }

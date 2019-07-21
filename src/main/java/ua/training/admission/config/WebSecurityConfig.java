@@ -38,15 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/signup").permitAll();
 
-        /* USER */
+        /* Config for Login Form */
         http.authorizeRequests()
-                .antMatchers("users/profile")
-                .access("hasRole('USER')");
-
-        /* ADMIN */
-        http.authorizeRequests()
-                .antMatchers("users")
-                .access("hasRole('ADMIN')");
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll()
+                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60);
 
 		/*
 		    When the user has logged in as XX.
@@ -54,12 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		*/
         http.authorizeRequests()
                 .and().exceptionHandling().accessDeniedPage("/403");
-
-        /* Config for Login Form */
-        http.authorizeRequests()
-                .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll()
-                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60);
     }
 
     @Override
