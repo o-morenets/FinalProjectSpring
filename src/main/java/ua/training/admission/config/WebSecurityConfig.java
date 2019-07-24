@@ -40,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         /* Config for Login Form */
         http.authorizeRequests()
-                .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()
                 .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60);

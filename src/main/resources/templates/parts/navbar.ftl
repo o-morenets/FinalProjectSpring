@@ -17,7 +17,7 @@
             <#if known>
                 <#if isAdmin>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users">Grades</a>
+                        <a class="nav-link" href="/users"><@s.message "menu.admin.grades"/></a>
                     </li>
                 <#else>
                     <li class="nav-item">

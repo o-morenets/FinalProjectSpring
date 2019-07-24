@@ -17,12 +17,12 @@
                        required
                        autofocus
                        name="username">
+                <#if usernameError??>
+                    <div class="invalid-feedback">
+                        <@s.message "${usernameError}"/>
+                    </div>
+                </#if>
             </div>
-            <#if usernameError??>
-                <div class="invalid-feedback">
-                    <@s.message "${usernameError}"/>
-                </div>
-            </#if>
         </div>
         <div class="form-group-row">
             <label class="control-label"
@@ -37,12 +37,12 @@
                        placeholder="<@s.message "user.password"/>"
                        required
                        name="password">
+                <#if passwordError??>
+                    <div class="invalid-feedback">
+                        <@s.message "${passwordError}"/>
+                    </div>
+                </#if>
             </div>
-            <#if passwordError??>
-                <div class="invalid-feedback">
-                    <@s.message "${passwordError}"/>
-                </div>
-            </#if>
         </div>
         <#if !isRegisterForm>
             <div class="form-group-row">
@@ -74,12 +74,12 @@
                            placeholder="<@s.message "form.control.passwordRetype"/>"
                            required
                            name="password2">
+                    <#if password2Error??>
+                        <div class="invalid-feedback">
+                            <@s.message "${password2Error}"/>
+                        </div>
+                    </#if>
                 </div>
-                <#if password2Error??>
-                    <div class="invalid-feedback">
-                        <@s.message "${password2Error}"/>
-                    </div>
-                </#if>
             </div>
             <div class="form-group-row">
                 <label class="control-label"

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="mx-auto">
             <h2>
-                <@s.message "welcome.message"/>
+                <@s.message "homePage.message"/>
             </h2>
         </div>
     </div>

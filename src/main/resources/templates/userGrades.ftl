@@ -48,6 +48,8 @@
         </form>
     <#else>
         <@s.message "user.speciality.notSelected"/>
-        <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning">Select</a>
+        <#if !isAdmin>
+            <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning">Select</a>
+        </#if>
     </#if>
 </@c.page>

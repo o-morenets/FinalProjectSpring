@@ -12,8 +12,8 @@ import java.security.Principal;
 public class PageController {
 
     @RequestMapping("/")
-    public String welcomePage() {
-        return "welcome";
+    public String homePage() {
+        return "homePage";
     }
 
     @RequestMapping(value = "/403")

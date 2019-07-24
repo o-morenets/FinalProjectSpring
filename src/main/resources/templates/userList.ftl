@@ -10,10 +10,10 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th><@s.message "user.username"/></th>
-                            <th><@s.message "user.email"/></th>
                             <th><@s.message "user.lastName"/></th>
                             <th><@s.message "user.firstName"/></th>
+                            <th><@s.message "user.email"/></th>
+                            <th><@s.message "user.username"/></th>
                             <th><@s.message "user.speciality.name"/></th>
                             <th><@s.message "userList.link.grades"/></th>
                         </tr>
@@ -21,13 +21,21 @@
                         <tbody>
                         <#list users as user>
                             <tr>
-                                <td>${user.getUsername()}</td>
-                                <td>${user.getEmail()}</td>
-                                <td>${user.getLastName()}</td>
-                                <td>${user.getFirstName()}</td>
-                                <td><#if user.getSpeciality()??>${user.getSpeciality().getName()}<#else>---</#if></td>
+                                <td>${user.lastName}</td>
+                                <td>${user.firstName}</td>
+                                <td>${user.email}</td>
+                                <td>${user.username}</td>
                                 <td>
-                                    <a href="/users/${user.getId()}/grades" class="badge badge-warning">grades</a>
+                                    <#if user.speciality??>${user.speciality.name}
+                                    <#else>-<@s.message "user.speciality.notSelected"/>-
+                                    </#if>
+                                </td>
+                                <td>
+                                    <#if user.speciality??>
+                                        <a href="/users/${user.id}/grades" class="badge badge-warning">
+                                            <@s.message "userList.link.grades"/>
+                                        </a>
+                                    </#if>
                                 </td>
                             </tr>
                         </#list>

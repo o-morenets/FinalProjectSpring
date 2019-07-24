@@ -5,20 +5,24 @@
 <@c.page>
     <div class="row justify-content-center">
         <div class="col-6">
-            <div class="row">
-                <div class="col">
-                    <#if logout>
+            <#if logout>
+                <div class="row">
+                    <div class="col">
                         <div class="alert alert-primary" role="alert">
                             <@s.message "form.alert.logout"/>
                         </div>
-                    </#if>
-                    <#if error>
+                    </div>
+                </div>
+            </#if>
+            <#if error>
+                <div class="row">
+                    <div class="col">
                         <div class="alert alert-danger" role="alert">
                             <@s.message "form.alert.error"/>
                         </div>
-                    </#if>
+                    </div>
                 </div>
-            </div>
+            </#if>
             <div class="row">
                 <div class="col">
                     <@l.login "/login" false/>
