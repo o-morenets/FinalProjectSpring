@@ -61,12 +61,12 @@ public class UserController {
     public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long value) {
         userService.updateSpeciality(user, value);
 
-        return "redirect:/users/profile";
+        return "redirect:/users/" + user.getId() + "/grades";
     }
 
-    @GetMapping("/profile")
-    public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        userService.findById(principal.getId()).ifPresent(usr -> {
+    @GetMapping("/{user}/grades")
+    public String userGrades(@PathVariable User user, Model model) {
+        userService.findById(user.getId()).ifPresent(usr -> {
             model.addAttribute("usr", usr);
             model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
         });
@@ -79,16 +79,6 @@ public class UserController {
         final List<SubjectGrade> subjectGrades = subjectGradeService.getUserGrades(u);
 
         return UserSubjectGradeDto.getUserSubjectGradeDtoList(subjects, subjectGrades);
-    }
-
-    @GetMapping("/{user}/grades")
-    public String userGrades(@PathVariable User user, Model model) {
-        userService.findById(user.getId()).ifPresent(usr -> {
-            model.addAttribute("usr", usr);
-            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
-        });
-
-        return "userGrades";
     }
 
     @PostMapping("/updateGrades")

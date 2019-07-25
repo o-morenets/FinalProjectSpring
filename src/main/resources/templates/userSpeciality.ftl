@@ -1,7 +1,8 @@
 <#import "parts/common.ftl" as c>
+<#import "/spring.ftl" as s/>
 
 <@c.page>
-    ${user.lastName} - choose your speciality
+    ${user.lastName} - <@s.message "selectSpec.selectSpeciality"/>
 
     <form action="/users/updateSpec" method="post">
         <div class="form-check">
@@ -21,6 +22,6 @@
         </#list>
         <input type="hidden" name="userId" value="${user.id}"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="submit">Save</button>
+        <button type="submit"><@s.message "button.save"/></button>
     </form>
 </@c.page>

@@ -14,8 +14,8 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>Subject</th>
-                        <th>Grade</th>
+                        <th><@s.message "userGrades.table.subject"/></th>
+                        <th><@s.message "userGrades.table.grade"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,10 +38,10 @@
                 </table>
 
                 <#if isAdmin>
-                    <button type="submit">Save</button>
+                    <button type="submit"><@s.message "button.save"/></button>
                 </#if>
             <#else>
-                - No subjects -
+                <@s.message "msg.noSubjects"/>
             </#if>
             <input type="hidden" name="userId" value="${usr.id}"/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
@@ -49,7 +49,7 @@
     <#else>
         <@s.message "user.speciality.notSelected"/>
         <#if !isAdmin>
-            <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning">Select</a>
+            <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning"><@s.message "button.select"/></a>
         </#if>
     </#if>
 </@c.page>

@@ -21,7 +21,7 @@
                     </li>
                 <#else>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/profile"><@s.message "menu.user.profile"/></a>
+                        <a class="nav-link" href="/users/${principal.id}/grades"><@s.message "menu.user.profile"/></a>
                     </li>
                 </#if>
             </#if>
