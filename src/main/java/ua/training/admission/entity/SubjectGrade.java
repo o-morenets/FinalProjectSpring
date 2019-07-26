@@ -25,5 +25,5 @@ public class SubjectGrade {
     @MapsId("subjectId")
     private Subject subject;
 
-    private int grade;
+    private Integer grade;
 }
