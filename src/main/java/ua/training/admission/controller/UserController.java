@@ -51,8 +51,10 @@ public class UserController {
 
     @GetMapping("/{user}/selectSpec")
     public String selectSpeciality(@PathVariable User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("specialities", specialityService.findAll());
+        userService.findById(user.getId()).ifPresent(usr -> {
+            model.addAttribute("user", usr);
+            model.addAttribute("specialities", specialityService.findAll());
+        });
 
         return "userSpeciality";
     }
@@ -67,7 +69,7 @@ public class UserController {
     @GetMapping("/{user}/grades")
     public String userGrades(@PathVariable User user, Model model) {
         userService.findById(user.getId()).ifPresent(usr -> {
-            model.addAttribute("usr", usr);
+            model.addAttribute("user", usr);
             model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
         });
 

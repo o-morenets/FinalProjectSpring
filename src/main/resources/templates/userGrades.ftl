@@ -3,10 +3,11 @@
 <#include "parts/security.ftl">
 
 <@c.page>
-    <h5>${usr.getLastName()} ${usr.getFirstName()}</h5>
+    <h5>${user.getLastName()} ${user.getFirstName()}</h5>
     <@s.message "user.speciality.name"/>:
-    <#if usr.getSpeciality()??>
-        <span class="badge badge-info">${usr.getSpeciality().getName()}</span>
+
+    <#if user.getSpeciality()??>
+        <span class="badge badge-info">${user.getSpeciality().getName()}</span>
         <br/>
 
         <form action="/users/updateGrades" method="post">
@@ -43,13 +44,13 @@
             <#else>
                 <@s.message "msg.noSubjects"/>
             </#if>
-            <input type="hidden" name="userId" value="${usr.id}"/>
+            <input type="hidden" name="userId" value="${user.id}"/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         </form>
     <#else>
         <@s.message "user.speciality.notSelected"/>
         <#if !isAdmin>
-            <a href="/users/${usr.getId()}/selectSpec" class="badge badge-warning"><@s.message "button.select"/></a>
+            <a href="/users/${user.getId()}/selectSpec" class="badge badge-warning"><@s.message "button.select"/></a>
         </#if>
     </#if>
 </@c.page>
