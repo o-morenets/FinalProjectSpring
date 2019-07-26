@@ -60,8 +60,8 @@ public class UserController {
     }
 
     @PostMapping("/updateSpec")
-    public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long value) {
-        userService.updateSpeciality(user, value);
+    public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long specId) {
+        userService.updateSpeciality(user, specId);
 
         return "redirect:/users/" + user.getId() + "/grades";
     }

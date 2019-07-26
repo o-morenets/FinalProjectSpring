@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.badRequest().body(ex);
+    public ResponseEntity handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e);
     }
 }

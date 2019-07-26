@@ -66,8 +66,10 @@ public class RegistrationController {
             userService.createUser(user);
             return "redirect:/login";
 
-        } catch (NotUniqueUsernameException ex) {
+        } catch (NotUniqueUsernameException e) {
+            log.warn("Not unique username", e);
             model.addAttribute("usernameError", "form.invalid.username.exists");
+
             return "signup";
         }
     }
@@ -81,7 +83,7 @@ public class RegistrationController {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.badRequest().body(ex);
+    public ResponseEntity handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e);
     }
 }

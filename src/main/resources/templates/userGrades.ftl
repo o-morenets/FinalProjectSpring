@@ -23,7 +23,9 @@
                     <#list userSubjectGradeDtoList as userSubjectGradeDto>
                         <tr>
                             <td>
-                                <label for="subject_${userSubjectGradeDto.subjectId}">${userSubjectGradeDto.subjectName}</label>
+                                <label for="subject_${userSubjectGradeDto.subjectId}">
+                                    ${userSubjectGradeDto.subjectName}
+                                </label>
                             </td>
                             <td>
                                 <input type="number"
@@ -42,7 +44,7 @@
                     <button type="submit"><@s.message "button.save"/></button>
                 </#if>
             <#else>
-                <@s.message "msg.noSubjects"/>
+                <@s.message "message.noSubjects"/>
             </#if>
             <input type="hidden" name="userId" value="${user.id}"/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>

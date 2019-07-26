@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+// TODO roles
         /* The pages does not require login */
         http.authorizeRequests()
                 .antMatchers("/", "/signup").permitAll();

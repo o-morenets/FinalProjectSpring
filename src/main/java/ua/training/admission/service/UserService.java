@@ -64,10 +64,10 @@ public class UserService {
         try {
             userRepository.save(usr);
 
-        } catch (Exception ex) {
+        } catch (Exception e) {
             int errorCode = 0;
 
-            Throwable specificException = NestedExceptionUtils.getMostSpecificCause(ex);
+            Throwable specificException = NestedExceptionUtils.getMostSpecificCause(e);
 
             if (specificException instanceof SQLException) {
                 SQLException sqlException = (SQLException) specificException;
@@ -75,18 +75,16 @@ public class UserService {
             }
 
             if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
-                log.warn("User already exists");
-
                 throw new NotUniqueUsernameException("User already exists");
             }
 
-            throw ex;
+            throw e;
         }
     }
 
     public void updateSpeciality(User user, Long specId) {
         Optional<Speciality> speciality = specialityRepository.findById(specId);
-        speciality.ifPresent(u -> user.setSpeciality(speciality.get()));
+        speciality.ifPresent(user::setSpeciality);
         userRepository.save(user);
     }
 }

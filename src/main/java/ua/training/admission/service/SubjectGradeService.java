@@ -3,16 +3,19 @@ package ua.training.admission.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.admission.entity.Subject;
 import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
 import ua.training.admission.entity.UserSubjectGradeKey;
 import ua.training.admission.repository.SubjectGradeRepository;
-import ua.training.admission.repository.SubjectRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.partitioningBy;
 
 @Slf4j
 @Service
@@ -29,22 +32,25 @@ public class SubjectGradeService {
         return subjectGradeRepository.findByUser(user);
     }
 
+    @Transactional
     public void updateGrades(User user, Map<String, String> form) {
-        subjectGradeRepository.saveAll(form.entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith("subject_"))
-                .filter(entry -> !entry.getValue().isEmpty()) // TODO What to do with empty ???
-                .map(entry -> SubjectGrade.builder()
+        Map<Boolean, List<SubjectGrade>> subjectGradeMap = form.entrySet().stream()
+                .filter(entry1 -> entry1.getKey().startsWith("subject_"))
+                .map(entry1 -> SubjectGrade.builder()
                         .id(new UserSubjectGradeKey(
                                 user.getId(),
-                                Long.valueOf(entry.getKey().replace("subject_", ""))))
+                                Long.valueOf(entry1.getKey().replaceAll("\\D+", ""))))
                         .user(User.builder()
                                 .id(user.getId())
                                 .build())
                         .subject(Subject.builder()
-                                .id(Long.valueOf(entry.getKey().replace("subject_", "")))
+                                .id(Long.valueOf(entry1.getKey().replaceAll("\\D+", "")))
                                 .build())
-                        .grade(Integer.parseInt(entry.getValue()))
+                        .grade(entry1.getValue().isEmpty() ? null : Integer.parseInt(entry1.getValue()))
                         .build())
-                .collect(Collectors.toList()));
+                .collect(partitioningBy(subjectGrade -> subjectGrade.getGrade() != null));
+
+        subjectGradeRepository.saveAll(subjectGradeMap.get(true));
+        subjectGradeRepository.deleteAll(subjectGradeMap.get(false));
     }
 }
