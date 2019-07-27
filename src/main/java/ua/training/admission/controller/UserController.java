@@ -2,6 +2,7 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.*;
 import ua.training.admission.entity.dto.UserSubjectGradeDto;
+import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.SubjectService;
@@ -66,12 +68,12 @@ public class UserController {
         return "redirect:/users/" + user.getId() + "/grades";
     }
 
-    @GetMapping("/{user}/grades")
-    public String userGrades(@PathVariable User user, Model model) {
-        userService.findById(user.getId()).ifPresent(usr -> {
-            model.addAttribute("user", usr);
-            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
-        });
+    @GetMapping("/{userId}/grades")
+    public String userGrades(@PathVariable Long userId, Model model) {
+        User usr = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
+
+        model.addAttribute("user", usr);
+        model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
 
         return "userGrades";
     }
@@ -88,5 +90,10 @@ public class UserController {
         subjectGradeService.updateGrades(user, form);
 
         return "redirect:/users";
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity handleResourceNotFoundException(ResourceNotFoundException e) {
+        return ResponseEntity.badRequest().build();
     }
 }
