@@ -68,6 +68,16 @@ public class UserController {
         return "redirect:/users/" + user.getId() + "/grades";
     }
 
+    @GetMapping("/profile")
+    public String userProfile(@AuthenticationPrincipal User principal, Model model) {
+        userService.findById(principal.getId()).ifPresent(usr -> {
+            model.addAttribute("user", usr);
+            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
+        });
+
+        return "userGrades";
+    }
+
     @GetMapping("/{userId}/grades")
     public String userGrades(@PathVariable Long userId, Model model) {
         User usr = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
