@@ -2,23 +2,21 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.Subject;
 import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
-import ua.training.admission.entity.dto.UserSubjectGradeDto;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.SubjectService;
 import ua.training.admission.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +54,7 @@ public class UserController {
         User usr = userService.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
 
         model.addAttribute("user", usr);
-        model.addAttribute("specialities", specialityService.findAll()); // FIXME Dto
+        model.addAttribute("specialities", specialityService.findAll());
 
         return "userSpeciality";
     }
@@ -70,10 +68,8 @@ public class UserController {
 
     @GetMapping("/profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        userService.findById(principal.getId()).ifPresent(usr -> {
-            model.addAttribute("user", usr);
-            model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
-        });
+        User usr = userService.findById(principal.getId()).orElseThrow(ResourceNotFoundException::new);
+        addModelAttributes(model, usr);
 
         return "userGrades";
     }
@@ -81,18 +77,17 @@ public class UserController {
     @GetMapping("/{userId}/grades")
     public String userGrades(@PathVariable Long userId, Model model) {
         User usr = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
-
-        model.addAttribute("user", usr);
-        model.addAttribute("userSubjectGradeDtoList", getUserSubjectGradeDtoList(usr));
+        addModelAttributes(model, usr);
 
         return "userGrades";
     }
 
-    private List<UserSubjectGradeDto> getUserSubjectGradeDtoList(User u) {
-        final List<Subject> subjects = subjectService.findBySpeciality(u.getSpeciality());
-        final List<SubjectGrade> subjectGrades = subjectGradeService.getUserGrades(u);
-
-        return UserSubjectGradeDto.getUserSubjectGradeDtoList(subjects, subjectGrades);
+    private void addModelAttributes(Model model, User usr) {
+        List<Subject> subjects = subjectService.findBySpeciality(usr.getSpeciality());
+        List<SubjectGrade> subjectGrades = subjectGradeService.findUserGrades(usr);
+        model.addAttribute("user", usr);
+        model.addAttribute("userSubjectGradeDtoList",
+                userService.getUserSubjectGradeDtoList(subjects, subjectGrades));
     }
 
     @PostMapping("/updateGrades")
@@ -102,8 +97,9 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No such user in database")
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView handleResourceNotFoundException(HttpServletRequest request, Exception e) {
-        return new ModelAndView("error/404");
+    public void resourceNotFound(ResourceNotFoundException e) {
+        log.warn("No such user in database", e);
     }
 }

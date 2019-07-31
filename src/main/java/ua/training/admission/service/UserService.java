@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.training.admission.entity.Role;
-import ua.training.admission.entity.Speciality;
-import ua.training.admission.entity.SubjectGrade;
-import ua.training.admission.entity.User;
+import ua.training.admission.entity.*;
+import ua.training.admission.entity.dto.UserSubjectGradeDto;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
 import ua.training.admission.repository.SubjectGradeRepository;
@@ -86,5 +84,12 @@ public class UserService {
         Optional<Speciality> speciality = specialityRepository.findById(specId);
         speciality.ifPresent(user::setSpeciality);
         userRepository.save(user);
+    }
+
+    public List<UserSubjectGradeDto> getUserSubjectGradeDtoList(
+            List<Subject> subjects,
+            List<SubjectGrade> subjectGrades)
+    {
+        return UserSubjectGradeDto.getUserSubjectGradeDtoList(subjects, subjectGrades);
     }
 }

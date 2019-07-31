@@ -28,7 +28,7 @@ public class SubjectGradeService {
         this.subjectGradeRepository = subjectGradeRepository;
     }
 
-    public List<SubjectGrade> getUserGrades(User user) {
+    public List<SubjectGrade> findUserGrades(User user) {
         return subjectGradeRepository.findByUser(user);
     }
 
