@@ -3,15 +3,15 @@
 <#include "parts/security.ftl">
 
 <@c.page>
-    <h5>${user.getLastName()} ${user.getFirstName()}</h5>
+    <h5>${user.lastName} ${user.firstName}</h5>
     <@s.message "user.speciality.name"/>:
 
-    <#if user.getSpeciality()??>
-        <span class="badge badge-info">${user.getSpeciality().getName()}</span>
+    <#if user.speciality??>
+        <span class="badge badge-info">${user.speciality.name}</span>
         <br/>
 
         <form action="/users/updateGrades" method="post">
-            <#if userSubjectGradeDtoList?has_content>
+            <#if userSubjectGradeList?has_content>
                 <table>
                     <thead>
                     <tr>
@@ -20,18 +20,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#list userSubjectGradeDtoList as userSubjectGradeDto>
+                    <#list userSubjectGradeList as userSubjectGrade>
                         <tr>
                             <td>
-                                <label for="subject_${userSubjectGradeDto.subjectId}">
-                                    ${userSubjectGradeDto.subjectName}
+                                <label for="subject_${userSubjectGrade.subject.id}">
+                                    ${userSubjectGrade.subject.name}
                                 </label>
                             </td>
                             <td>
                                 <input type="number"
-                                       id="subject_${userSubjectGradeDto.subjectId}"
-                                       name="subject_${userSubjectGradeDto.subjectId}"
-                                       value="<#if userSubjectGradeDto.grade??>${userSubjectGradeDto.grade}</#if>"
+                                       id="subject_${userSubjectGrade.subject.id}"
+                                       name="subject_${userSubjectGrade.subject.id}"
+                                       value="<#if userSubjectGrade.grade??>${userSubjectGrade.grade}</#if>"
                                        <#if !isAdmin>disabled</#if>
                                 >
                             </td>

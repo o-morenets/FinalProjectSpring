@@ -12,8 +12,6 @@ import ua.training.admission.repository.SubjectGradeRepository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.partitioningBy;
 
@@ -33,11 +31,11 @@ public class SubjectGradeService {
     }
 
     public void updateGrades(User user, Map<String, String> form) {
-        Map<Boolean, List<SubjectGrade>> subjectGradeMap = getBooleanListMap(user, form);
+        Map<Boolean, List<SubjectGrade>> subjectGradeMap = partitionSubjectGrades(user, form);
         updateAndDelete(subjectGradeMap);
     }
 
-    private Map<Boolean, List<SubjectGrade>> getBooleanListMap(User user, Map<String, String> form) {
+    private Map<Boolean, List<SubjectGrade>> partitionSubjectGrades(User user, Map<String, String> form) {
         return form.entrySet().stream()
                     .filter(entry1 -> entry1.getKey().startsWith("subject_"))
                     .map(entry1 -> SubjectGrade.builder()
@@ -56,7 +54,7 @@ public class SubjectGradeService {
     }
 
     @Transactional
-    private void updateAndDelete(Map<Boolean, List<SubjectGrade>> subjectGradeMap) {
+    void updateAndDelete(Map<Boolean, List<SubjectGrade>> subjectGradeMap) {
         subjectGradeRepository.saveAll(subjectGradeMap.get(true));
         subjectGradeRepository.deleteAll(subjectGradeMap.get(false));
     }

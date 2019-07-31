@@ -8,13 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.Role;
-import ua.training.admission.entity.Subject;
 import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
-import ua.training.admission.service.SubjectService;
 import ua.training.admission.service.UserService;
 
 import java.util.List;
@@ -28,18 +26,15 @@ public class UserController {
     private final UserService userService;
     private final SpecialityService specialityService;
     private final SubjectGradeService subjectGradeService;
-    private final SubjectService subjectService;
 
     @Autowired
     public UserController(UserService userService,
                           SpecialityService specialityService,
-                          SubjectGradeService subjectGradeService,
-                          SubjectService subjectService
+                          SubjectGradeService subjectGradeService
     ) {
         this.userService = userService;
         this.specialityService = specialityService;
         this.subjectGradeService = subjectGradeService;
-        this.subjectService = subjectService;
     }
 
     @GetMapping
@@ -83,11 +78,10 @@ public class UserController {
     }
 
     private void addModelAttributes(Model model, User usr) {
-        List<Subject> subjects = subjectService.findBySpeciality(usr.getSpeciality());
         List<SubjectGrade> subjectGrades = subjectGradeService.findUserGrades(usr);
         model.addAttribute("user", usr);
-        model.addAttribute("userSubjectGradeDtoList",
-                userService.getUserSubjectGradeDtoList(subjects, subjectGrades));
+        model.addAttribute("userSubjectGradeList",
+                userService.getUserSubjectGradeList(usr, subjectGrades));
     }
 
     @PostMapping("/updateGrades")
@@ -97,7 +91,7 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No such user in database")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public void resourceNotFound(ResourceNotFoundException e) {
         log.warn("No such user in database", e);

@@ -6,18 +6,12 @@ import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.training.admission.entity.*;
-import ua.training.admission.entity.dto.UserSubjectGradeDto;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
-import ua.training.admission.repository.SubjectGradeRepository;
-import ua.training.admission.repository.SubjectRepository;
 import ua.training.admission.repository.UserRepository;
 
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -86,10 +80,26 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<UserSubjectGradeDto> getUserSubjectGradeDtoList(
-            List<Subject> subjects,
+    public List<SubjectGrade> getUserSubjectGradeList(
+            User user,
             List<SubjectGrade> subjectGrades)
     {
-        return UserSubjectGradeDto.getUserSubjectGradeDtoList(subjects, subjectGrades);
+        List<SubjectGrade> result = new ArrayList<>();
+        if (user.getSpeciality() != null) {
+            Set<Subject> subjects = user.getSpeciality().getSubjects();
+            Map<Long, Integer> subjectGradeMap = subjectGrades.stream()
+                    .collect(Collectors.toMap(subjectGrade ->
+                            subjectGrade.getSubject().getId(), SubjectGrade::getGrade));
+
+            result = subjects.stream()
+                    .map(subject -> SubjectGrade.builder()
+                            .user(user)
+                            .subject(subject)
+                            .grade(subjectGradeMap.get(subject.getId()))
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        return result;
     }
 }
