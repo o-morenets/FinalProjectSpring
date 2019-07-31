@@ -52,7 +52,7 @@
     <#else>
         <@s.message "user.speciality.notSelected"/>
         <#if !isAdmin>
-            <a href="/users/${user.getId()}/selectSpec" class="badge badge-warning"><@s.message "button.select"/></a>
+            <a href="/users/${user.getId()}/speciality" class="badge badge-warning"><@s.message "button.select"/></a>
         </#if>
     </#if>
 </@c.page>

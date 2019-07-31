@@ -81,9 +81,4 @@ public class RegistrationController {
         );
         return bindingResult.getFieldErrors().stream().collect(collector);
     }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity handleRuntimeException(RuntimeException e) {
-        return ResponseEntity.badRequest().build();
-    }
 }

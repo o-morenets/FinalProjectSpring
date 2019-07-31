@@ -32,24 +32,31 @@ public class SubjectGradeService {
         return subjectGradeRepository.findByUser(user);
     }
 
-    @Transactional
     public void updateGrades(User user, Map<String, String> form) {
-        Map<Boolean, List<SubjectGrade>> subjectGradeMap = form.entrySet().stream()
-                .filter(entry1 -> entry1.getKey().startsWith("subject_"))
-                .map(entry1 -> SubjectGrade.builder()
-                        .id(new UserSubjectGradeKey(
-                                user.getId(),
-                                Long.valueOf(entry1.getKey().replaceAll("\\D+", ""))))
-                        .user(User.builder()
-                                .id(user.getId())
-                                .build())
-                        .subject(Subject.builder()
-                                .id(Long.valueOf(entry1.getKey().replaceAll("\\D+", "")))
-                                .build())
-                        .grade(entry1.getValue().isEmpty() ? null : Integer.parseInt(entry1.getValue()))
-                        .build())
-                .collect(partitioningBy(subjectGrade -> subjectGrade.getGrade() != null));
+        Map<Boolean, List<SubjectGrade>> subjectGradeMap = getBooleanListMap(user, form);
+        updateAndDelete(subjectGradeMap);
+    }
 
+    private Map<Boolean, List<SubjectGrade>> getBooleanListMap(User user, Map<String, String> form) {
+        return form.entrySet().stream()
+                    .filter(entry1 -> entry1.getKey().startsWith("subject_"))
+                    .map(entry1 -> SubjectGrade.builder()
+                            .id(new UserSubjectGradeKey(
+                                    user.getId(),
+                                    Long.valueOf(entry1.getKey().replaceAll("\\D+", ""))))
+                            .user(User.builder()
+                                    .id(user.getId())
+                                    .build())
+                            .subject(Subject.builder()
+                                    .id(Long.valueOf(entry1.getKey().replaceAll("\\D+", "")))
+                                    .build())
+                            .grade(entry1.getValue().isEmpty() ? null : Integer.parseInt(entry1.getValue()))
+                            .build())
+                    .collect(partitioningBy(subjectGrade -> subjectGrade.getGrade() != null));
+    }
+
+    @Transactional
+    private void updateAndDelete(Map<Boolean, List<SubjectGrade>> subjectGradeMap) {
         subjectGradeRepository.saveAll(subjectGradeMap.get(true));
         subjectGradeRepository.deleteAll(subjectGradeMap.get(false));
     }

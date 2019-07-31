@@ -15,9 +15,8 @@ public class PageController {
     }
 
     @RequestMapping(value = "/403")
-    public String accessDenied(Model model) {
-        model.addAttribute("message", "message.403");
+    public String page403() {
 
-        return "errorPage/403";
+        return "error/403";
     }
 }

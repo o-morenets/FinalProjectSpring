@@ -17,16 +17,11 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@RequestParam(name = "error", required = false) String error,
                         @RequestParam(name = "logout", required = false) String logout,
-                        Model model) {
-
+                        Model model)
+    {
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
 
         return "login";
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity handleRuntimeException(RuntimeException e) {
-        return ResponseEntity.badRequest().build();
     }
 }

@@ -2,15 +2,15 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.training.admission.entity.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.training.admission.entity.Role;
+import ua.training.admission.entity.Subject;
+import ua.training.admission.entity.SubjectGrade;
+import ua.training.admission.entity.User;
 import ua.training.admission.entity.dto.UserSubjectGradeDto;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
@@ -18,9 +18,9 @@ import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.SubjectService;
 import ua.training.admission.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -51,12 +51,12 @@ public class UserController {
         return "userList";
     }
 
-    @GetMapping("/{user}/selectSpec")
+    @GetMapping("/{user}/speciality")
     public String selectSpeciality(@PathVariable User user, Model model) {
-        userService.findById(user.getId()).ifPresent(usr -> {
-            model.addAttribute("user", usr);
-            model.addAttribute("specialities", specialityService.findAll());
-        });
+        User usr = userService.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
+
+        model.addAttribute("user", usr);
+        model.addAttribute("specialities", specialityService.findAll()); // FIXME Dto
 
         return "userSpeciality";
     }
@@ -103,7 +103,7 @@ public class UserController {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity handleResourceNotFoundException(ResourceNotFoundException e) {
-        return ResponseEntity.badRequest().build();
+    public ModelAndView handleResourceNotFoundException(HttpServletRequest request, Exception e) {
+        return new ModelAndView("error/404");
     }
 }
