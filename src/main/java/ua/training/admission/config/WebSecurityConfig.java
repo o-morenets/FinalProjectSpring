@@ -34,17 +34,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-// TODO roles
         http.authorizeRequests()
-                .antMatchers("/", "/signup").permitAll();
+                .antMatchers("/", "/signup").permitAll()
 
-        http.authorizeRequests()
+                .antMatchers("/css/**", "/jquery/**", "/js/**", "/img/**").permitAll()
+
+                .antMatchers("/users/profile", "/users/{id}/speciality")
+                .access("hasAuthority('USER')")
+
+                .antMatchers("/users", "/users/", "/users/{id}/grades")
+                .access("hasAuthority('ADMIN')")
+
+                .anyRequest().authenticated()
+
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()
-                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60);
-
-        http.authorizeRequests()
-                .and().exceptionHandling().accessDeniedPage("/403"); // TODO check path
+                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60)
+                .and().exceptionHandling().accessDeniedPage("/403");
     }
 
     @Override

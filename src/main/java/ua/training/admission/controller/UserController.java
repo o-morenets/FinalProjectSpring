@@ -78,10 +78,9 @@ public class UserController {
     }
 
     private void addModelAttributes(Model model, User usr) {
-        List<SubjectGrade> subjectGrades = subjectGradeService.findUserGrades(usr);
         model.addAttribute("user", usr);
         model.addAttribute("userSubjectGradeList",
-                userService.getUserSubjectGradeList(usr, subjectGrades));
+                userService.getUserSubjectGradeList(usr, subjectGradeService.findUserGrades(usr)));
     }
 
     @PostMapping("/updateGrades")
