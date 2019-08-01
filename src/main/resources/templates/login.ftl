@@ -4,28 +4,35 @@
 
 <@c.page>
     <div class="row justify-content-center">
-        <div class="col-4">
-            <#if logout>
-                <div class="row">
-                    <div class="col">
-                        <div class="alert alert-primary" role="alert">
-                            <@s.message "form.alert.logout"/>
+        <div class="col-sm-8 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><@s.message "card.login.header"/></h5>
+                </div>
+                <div class="card-body">
+                    <#if logout>
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-primary" role="alert">
+                                    <@s.message "form.alert.logout"/>
+                                </div>
+                            </div>
+                        </div>
+                    </#if>
+                    <#if error>
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-danger" role="alert">
+                                    <@s.message "form.alert.error"/>
+                                </div>
+                            </div>
+                        </div>
+                    </#if>
+                    <div class="row">
+                        <div class="col">
+                            <@l.login "/login" false/>
                         </div>
                     </div>
-                </div>
-            </#if>
-            <#if error>
-                <div class="row">
-                    <div class="col">
-                        <div class="alert alert-danger" role="alert">
-                            <@s.message "form.alert.error"/>
-                        </div>
-                    </div>
-                </div>
-            </#if>
-            <div class="row">
-                <div class="col">
-                    <@l.login "/login" false/>
                 </div>
             </div>
         </div>

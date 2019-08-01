@@ -30,8 +30,8 @@ public class UserController {
     @Autowired
     public UserController(UserService userService,
                           SpecialityService specialityService,
-                          SubjectGradeService subjectGradeService
-    ) {
+                          SubjectGradeService subjectGradeService)
+    {
         this.userService = userService;
         this.specialityService = specialityService;
         this.subjectGradeService = subjectGradeService;

@@ -80,10 +80,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<SubjectGrade> getUserSubjectGradeList(
-            User user,
-            List<SubjectGrade> subjectGrades)
-    {
+    public List<SubjectGrade> getUserSubjectGradeList(User user, List<SubjectGrade> subjectGrades) {
         List<SubjectGrade> result = new ArrayList<>();
         if (user.getSpeciality() != null) {
             Set<Subject> subjects = user.getSpeciality().getSubjects();

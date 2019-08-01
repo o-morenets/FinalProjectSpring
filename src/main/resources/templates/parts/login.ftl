@@ -48,12 +48,12 @@
             <div class="form-group-row">
                 <div class="col-sm-offset-2 col-12">
                     <div class="row justify-content-between">
-                        <div class="col-md-7 mt-2 checkbox">
+                        <div class="col-8 mt-2 checkbox">
                             <label>
                                 <input type="checkbox" name='remember-me'> <@s.message "form.control.rememberMe"/>
                             </label>
                         </div>
-                        <div class="col-md-5 mt-2">
+                        <div class="col-4 mt-2">
                             <p class="text-right"><a href="/signup"><@s.message "form.control.signup"/></a></p>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
             </div>
         </#if>
         <div class="form-group-row">
-            <div class="col-sm-offset-2 col-sm-6 mt-2">
+            <div class="col-12 mt-3 text-center">
                 <button id="btnSubmit" type="submit" class="btn btn-primary">
                     <#if isRegisterForm>
                         <@s.message "form.control.signup"/>
