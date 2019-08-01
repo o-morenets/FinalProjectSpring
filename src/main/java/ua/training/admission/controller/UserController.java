@@ -58,7 +58,7 @@ public class UserController {
     public String updateSpeciality(@RequestParam("userId") User user, @RequestParam("specRadios") Long specId) {
         userService.updateSpeciality(user, specId);
 
-        return "redirect:/users/" + user.getId() + "/grades";
+        return "redirect:/users/profile";
     }
 
     @GetMapping("/profile")

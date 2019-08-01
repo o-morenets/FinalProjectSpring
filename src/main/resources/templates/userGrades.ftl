@@ -78,7 +78,7 @@
                     </div>
                 </#if>
             </div>
-            <#if !isAdmin>
+            <#if !isAdmin && user.speciality??>
                 <div class="card-footer text-muted">
                     <@s.message "user.averageGrade"/>
                 </div>
