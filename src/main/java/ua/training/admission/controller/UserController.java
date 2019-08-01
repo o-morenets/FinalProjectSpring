@@ -69,18 +69,18 @@ public class UserController {
         return "userGrades";
     }
 
+    private void addModelAttributes(Model model, User usr) {
+        model.addAttribute("user", usr);
+        model.addAttribute("userSubjectGradeList",
+                userService.getUserSubjectGradeList(usr, subjectGradeService.findUserGrades(usr)));
+    }
+
     @GetMapping("/{userId}/grades")
     public String userGrades(@PathVariable Long userId, Model model) {
         User usr = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
         addModelAttributes(model, usr);
 
         return "userGrades";
-    }
-
-    private void addModelAttributes(Model model, User usr) {
-        model.addAttribute("user", usr);
-        model.addAttribute("userSubjectGradeList",
-                userService.getUserSubjectGradeList(usr, subjectGradeService.findUserGrades(usr)));
     }
 
     @PostMapping("/updateGrades")

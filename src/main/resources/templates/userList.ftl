@@ -4,9 +4,9 @@
 <@c.page>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><@s.message "userList.panel.title"/></div>
-                <div class="panel-body">
+            <div class="card text-center">
+                <div class="card-header"><@s.message "userList.panel.title"/></div>
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                         <tr>

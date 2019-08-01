@@ -14,7 +14,7 @@
 
     <body>
     <#include "navbar.ftl">
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <#nested>
     </div>
     <!-- Optional JavaScript -->

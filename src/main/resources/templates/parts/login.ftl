@@ -132,7 +132,7 @@
         </#if>
         <div class="form-group-row">
             <div class="col-sm-offset-2 col-sm-6 mt-2">
-                <button id="btnSubmit" type="submit" class="btn btn-success">
+                <button id="btnSubmit" type="submit" class="btn btn-primary">
                     <#if isRegisterForm>
                         <@s.message "form.control.signup"/>
                     <#else>

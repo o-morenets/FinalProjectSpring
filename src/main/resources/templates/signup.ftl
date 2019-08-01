@@ -3,7 +3,7 @@
 
 <@c.page>
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-4">
             <@l.login "/signup" true />
         </div>
     </div>
