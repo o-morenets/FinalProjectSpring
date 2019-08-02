@@ -13,6 +13,18 @@ import java.util.List;
 @Repository
 public interface SubjectGradeRepository extends JpaRepository<SubjectGrade, Long> {
 
-    List<SubjectGrade> findByUser(User user);
+    @Query(nativeQuery = true,
+            value = "SELECT usr.id user_id, subject.id subject_id, subject_grade.grade" +
+                    " FROM usr" +
+                    " JOIN speciality" +
+                    " ON usr.speciality_id = speciality.id" +
+                    " JOIN speciality_subject" +
+                    " ON speciality_subject.speciality_id = speciality.id" +
+                    " LEFT JOIN subject" +
+                    " ON speciality_subject.subject_id = subject.id" +
+                    " LEFT JOIN subject_grade" +
+                    " ON subject_grade.subject_id = subject.id AND subject_grade.user_id = usr.id" +
+                    " WHERE usr.id = :userId")
+    List<SubjectGrade> findUserSubjectGrades(@Param("userId") Long userId);
 
 }

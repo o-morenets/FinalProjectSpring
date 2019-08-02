@@ -26,8 +26,8 @@ public class SubjectGradeService {
         this.subjectGradeRepository = subjectGradeRepository;
     }
 
-    public List<SubjectGrade> findUserGrades(User user) {
-        return subjectGradeRepository.findByUser(user);
+    public List<SubjectGrade> findUserSubjectGrades(User user) {
+        return subjectGradeRepository.findUserSubjectGrades(user.getId());
     }
 
     public void updateGrades(User user, Map<String, String> form) {

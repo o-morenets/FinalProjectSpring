@@ -8,14 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.Role;
-import ua.training.admission.entity.SubjectGrade;
 import ua.training.admission.entity.User;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -71,8 +69,7 @@ public class UserController {
 
     private void addModelAttributes(Model model, User usr) {
         model.addAttribute("user", usr);
-        model.addAttribute("userSubjectGradeList",
-                userService.getUserSubjectGradeList(usr, subjectGradeService.findUserGrades(usr)));
+        model.addAttribute("userSubjectGradeList", subjectGradeService.findUserSubjectGrades(usr));
     }
 
     @GetMapping("/{userId}/grades")
