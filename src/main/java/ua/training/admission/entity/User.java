@@ -58,13 +58,16 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "user")
-    private Set<SubjectGrade> grades;
-
     @ManyToOne
     @JoinColumn(name = "speciality_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Speciality speciality;
+
+    @OneToMany(mappedBy = "user")
+    private Set<SubjectGrade> grades;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Message message;
 
     public boolean isAdmin() {
         return authorities.contains(Role.ADMIN);
