@@ -66,6 +66,8 @@ public class UserService {
                 errorCode = sqlException.getErrorCode();
             }
 
+            // TODO how to handle one more exception - NotUniqueEmail???
+
             if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
                 throw new NotUniqueUsernameException("User already exists");
             }

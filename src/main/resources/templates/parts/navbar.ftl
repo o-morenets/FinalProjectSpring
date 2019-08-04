@@ -27,13 +27,20 @@
             </#if>
         </ul>
         <#if known>
-            <div class="navbar-text mr-3">${name}</div>
+            <div class="navbar-text mr-3">
+                <b>${principal.lastName} ${principal.firstName}</b> [${principal.username}]
+            </div>
+            <#if isAdmin>
+                <span class="badge badge-danger"><@s.message "menu.role.admin"/></span>
+            <#else>
+                <span class="badge badge-info"><@s.message "menu.role.user"/></span>
+            </#if>
         <#else>
-            <ul class="navbar-nav mr-3">
+            <div class="navbar-nav mr-3">
                 <li class="nav-item">
                     <a class="nav-link" href="/signup"><@s.message "menu.signup"/></a>
                 </li>
-            </ul>
+            </div>
         </#if>
         <@l.logout />
         <#include "lang.ftl">

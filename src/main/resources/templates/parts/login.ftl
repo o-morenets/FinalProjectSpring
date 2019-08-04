@@ -151,7 +151,7 @@
 
     <#if known>
         <form action="/logout" method="post">
-            <button class="btn btn-secondary" type="submit">
+            <button class="btn btn-secondary ml-3" type="submit">
                 <@s.message "menu.logout"/>
             </button>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>

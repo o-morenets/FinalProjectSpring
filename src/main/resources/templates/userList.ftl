@@ -26,14 +26,19 @@
                                 <td>${user.email}</td>
                                 <td>${user.username}</td>
                                 <td>
-                                    <#if user.speciality??>${user.speciality.name}
-                                    <#else>-<@s.message "user.speciality.notSelected"/>-
+                                    <#if user.speciality??>
+                                        ${user.speciality.name}
+                                    <#else>
+                                        <span class="badge badge-dark mb-3">
+                                                <@s.message "user.speciality.notSelected"/>
+                                            </span>
                                     </#if>
                                 </td>
                                 <td>
                                     <#if user.speciality??>
                                         <a href="/users/${user.id}/grades"
-                                           class="badge badge-warning"><@s.message "userList.link.grades"/>
+                                           class="badge ${(user.message??)?string('badge-success', 'badge-warning')}">
+                                            <@s.message "userList.link.grades"/>
                                         </a>
                                     </#if>
                                 </td>
