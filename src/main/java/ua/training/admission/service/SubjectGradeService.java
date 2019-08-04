@@ -73,21 +73,21 @@ public class SubjectGradeService {
                     .build();
         }
 
-        boolean isAllGradesSet = subjectGradesToDelete.isEmpty();
-        if (isAllGradesSet) {
+        boolean isAllGradesProvided = subjectGradesToDelete.isEmpty();
+        if (isAllGradesProvided) {
             message.setAverageGrade(countAverageGrade(subjectGradesToUpdate));
         } else {
             message = null;
         }
 
         user.setMessage(message);
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
     }
 
     private double countAverageGrade(List<SubjectGrade> subjectGradesFinal) {
         return subjectGradesFinal.stream()
                 .mapToDouble(SubjectGrade::getGrade)
                 .average()
-                .orElse(-1);
+                .orElse(-1); // TODO maybe orElseThrow and then catch ???
     }
 }
