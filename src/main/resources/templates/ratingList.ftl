@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><@s.message "card.userList.title"/></div>
+                <div class="card-header"><@s.message "card.ratingList.title"/></div>
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
@@ -15,7 +15,7 @@
                             <th><@s.message "user.email"/></th>
                             <th><@s.message "user.username"/></th>
                             <th><@s.message "user.speciality.name"/></th>
-                            <th><@s.message "userList.link.grades"/></th>
+                            <th><@s.message "userList.link.averageGrade"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -25,8 +25,7 @@
                                 <td>${user.firstName}</td>
                                 <td>${user.email}</td>
                                 <td>${user.username}</td>
-                                <td>
-                                    <#if user.speciality??>
+                                <td><#if user.speciality??>
                                         ${user.speciality.name}
                                     <#else>
                                         <span class="badge badge-dark mb-3">
@@ -35,11 +34,16 @@
                                     </#if>
                                 </td>
                                 <td>
-                                    <#if user.speciality??>
-                                        <a href="/users/${user.id}/grades"
-                                           class="badge ${(user.message??)?string('badge-success', 'badge-warning')}">
-                                            <@s.message "userList.link.grades"/>
-                                        </a>
+                                    <#if user.message??>
+                                        <div class="progress">
+                                            <div class="progress-bar <#if user.message.entered>bg-success<#else>bg-danger</#if>"
+                                                 role="progressbar"
+                                                 style="width: ${user.message.averageGrade?round}%;"
+                                                 aria-valuemin="0" aria-valuemax="100"
+                                                 aria-valuenow="${user.message.averageGrade}">
+                                                ${user.message.averageGrade}
+                                            </div>
+                                        </div>
                                     </#if>
                                 </td>
                             </tr>

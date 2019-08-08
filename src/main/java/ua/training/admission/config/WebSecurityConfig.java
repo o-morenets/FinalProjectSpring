@@ -26,7 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
 
     @Autowired
-    public WebSecurityConfig(PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsService, DataSource dataSource) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             UserDetailsServiceImpl userDetailsService,
+                             DataSource dataSource) {
+
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
         this.dataSource = dataSource;
@@ -42,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/profile", "/users/{id}/speciality")
                 .access("hasAuthority('USER')")
 
-                .antMatchers("/users", "/users/", "/users/{id}/grades")
+                .antMatchers("/users", "/users/", "/users/{id}/grades",
+                        "/users/passGrade", "/users/ratingList")
                 .access("hasAuthority('ADMIN')")
 
                 .anyRequest().authenticated()

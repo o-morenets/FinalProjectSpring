@@ -28,8 +28,8 @@ public class UserController {
     @Autowired
     public UserController(UserService userService,
                           SpecialityService specialityService,
-                          SubjectGradeService subjectGradeService)
-    {
+                          SubjectGradeService subjectGradeService) {
+
         this.userService = userService;
         this.specialityService = specialityService;
         this.subjectGradeService = subjectGradeService;
@@ -85,6 +85,25 @@ public class UserController {
         subjectGradeService.updateGrades(user, form);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/passGrade")
+    public String passGradePage() {
+        return "passGrade";
+    }
+
+    @PostMapping("/sendMessages")
+    public String sendMessages(@RequestParam("passGrade") Double passGrade) {
+        userService.sendMessages(passGrade);
+
+        return "redirect:/users/ratingList";
+    }
+
+    @GetMapping("/ratingList")
+    public String ratingList(Model model) {
+        model.addAttribute("users", userService.findAllByRole(Role.USER));
+
+        return "ratingList";
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

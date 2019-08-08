@@ -40,8 +40,8 @@ public class RegistrationController {
             @RequestParam("password2") String passwordConfirm,
             @Valid User user,
             BindingResult bindingResult,
-            Model model
-    ) {
+            Model model) {
+
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if (isConfirmEmpty) {
             model.addAttribute("password2Error", "form.invalid.passwordRetype.empty");

@@ -97,6 +97,17 @@
                             </div>
                         </#if>
                     </div>
+                    <#if !isAdmin && user.message??>
+                        <#if user.message.entered>
+                            <div class="alert alert-success" role="alert">
+                                <@s.message "user.message.entered"/>
+                            </div>
+                        <#else>
+                            <div class="alert alert-danger" role="alert">
+                                <@s.message "user.message.notEntered"/>
+                            </div>
+                        </#if>
+                    </#if>
                 </div>
             </div>
         </div>

@@ -31,7 +31,22 @@ public class SubjectGradeService {
     }
 
     public void updateGrades(User user, Map<String, String> form) {
-        updateAndDelete(user, partitionSubjectGrades(user, form));
+        Map<Boolean, List<SubjectGrade>> subjectGradeMap = partitionSubjectGrades(user, form);
+        List<SubjectGrade> subjectGradesToUpdate = subjectGradeMap.get(Boolean.TRUE);
+        List<SubjectGrade> subjectGradesToDelete = subjectGradeMap.get(Boolean.FALSE);
+
+        updateAndDelete(user, subjectGradesToUpdate, subjectGradesToDelete);
+    }
+
+    @Transactional
+    void updateAndDelete(User user,
+                         List<SubjectGrade> subjectGradesToUpdate,
+                         List<SubjectGrade> subjectGradesToDelete) {
+
+        subjectGradeRepository.saveAll(subjectGradesToUpdate);
+        subjectGradeRepository.deleteAll(subjectGradesToDelete);
+
+        updateUserMessage(user, subjectGradesToUpdate, subjectGradesToDelete);
     }
 
     private Map<Boolean, List<SubjectGrade>> partitionSubjectGrades(User user, Map<String, String> form) {
@@ -52,20 +67,10 @@ public class SubjectGradeService {
                 .collect(partitioningBy(subjectGrade -> subjectGrade.getGrade() != null));
     }
 
-    @Transactional
-    void updateAndDelete(User user, Map<Boolean, List<SubjectGrade>> subjectGradeMap) {
-        List<SubjectGrade> subjectGradesToUpdate = subjectGradeMap.get(true);
-        subjectGradeRepository.saveAll(subjectGradesToUpdate);
-
-        List<SubjectGrade> subjectGradesToDelete = subjectGradeMap.get(false);
-        subjectGradeRepository.deleteAll(subjectGradesToDelete);
-
-        updateUserMessage(user, subjectGradesToUpdate, subjectGradesToDelete);
-    }
-
     private void updateUserMessage(User user,
-                                   List<SubjectGrade> subjectGradesToUpdate, List<SubjectGrade> subjectGradesToDelete)
-    {
+                                   List<SubjectGrade> subjectGradesToUpdate,
+                                   List<SubjectGrade> subjectGradesToDelete) {
+
         Message message = user.getMessage();
         if (message == null) {
             message = Message.builder()

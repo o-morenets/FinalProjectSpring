@@ -20,7 +20,7 @@ public class Message {
 
     private double averageGrade;
 
-    private String message;
+    private boolean entered;
 
     private boolean messageRead;
 

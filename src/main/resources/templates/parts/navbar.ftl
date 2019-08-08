@@ -19,9 +19,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/users"><@s.message "menu.admin.grades"/></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/passGrade"><@s.message "menu.admin.rating"/></a>
+                    </li>
                 <#else>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/profile"><@s.message "menu.user.profile"/></a>
+                        <a class="nav-link" href="/users/profile"><@s.message "menu.user.profile"/>
+                            <#if principal.message?? && principal.message.entered??>
+                                <span class="badge badge-pill badge-danger">1</span>
+                            </#if>
+                        </a>
                     </li>
                 </#if>
             </#if>

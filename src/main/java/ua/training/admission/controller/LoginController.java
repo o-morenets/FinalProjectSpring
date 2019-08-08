@@ -13,8 +13,8 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@RequestParam(name = "error", required = false) String error,
                         @RequestParam(name = "logout", required = false) String logout,
-                        Model model)
-    {
+                        Model model) {
+
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
 

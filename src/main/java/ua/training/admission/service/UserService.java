@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.admission.entity.*;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
@@ -24,9 +25,7 @@ public class UserService {
     private final SpecialityRepository specialityRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository,
-                       SpecialityRepository specialityRepository
-    ) {
+    public UserService(UserRepository userRepository, SpecialityRepository specialityRepository) {
         this.userRepository = userRepository;
         this.specialityRepository = specialityRepository;
     }
@@ -82,23 +81,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<SubjectGrade> getUserSubjectGradeList(User user, List<SubjectGrade> subjectGrades) {
-        List<SubjectGrade> result = new ArrayList<>();
-        if (user.getSpeciality() != null) {
-            Set<Subject> subjects = user.getSpeciality().getSubjects();
-            Map<Long, Integer> subjectGradeMap = subjectGrades.stream()
-                    .collect(Collectors.toMap(subjectGrade ->
-                            subjectGrade.getSubject().getId(), SubjectGrade::getGrade));
-
-            result = subjects.stream()
-                    .map(subject -> SubjectGrade.builder()
-                            .user(user)
-                            .subject(subject)
-                            .grade(subjectGradeMap.get(subject.getId()))
-                            .build())
-                    .collect(Collectors.toList());
-        }
-
-        return result;
+    @Transactional
+    public void sendMessages(Double passGrade) {
+        List<User> users = userRepository.findByAuthoritiesContains(Role.USER);
+        users.stream()
+                .filter(user -> user.getMessage() != null)
+                .forEach(user -> {
+                    user.getMessage().setEntered(user.getMessage().getAverageGrade() >= passGrade);
+                });
+        userRepository.saveAll(users);
     }
 }
