@@ -77,6 +77,7 @@ public class RegistrationController {
                 fieldError -> fieldError.getField() + "Error",
                 FieldError::getDefaultMessage
         );
+        
         return bindingResult.getFieldErrors().stream().collect(collector);
     }
 }

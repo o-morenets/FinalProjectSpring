@@ -93,6 +93,6 @@ public class SubjectGradeService {
         return subjectGradesFinal.stream()
                 .mapToDouble(SubjectGrade::getGrade)
                 .average()
-                .orElse(-1); // TODO maybe orElseThrow and then catch ???
+                .orElseThrow(() -> new RuntimeException("Error while count average grade"));
     }
 }

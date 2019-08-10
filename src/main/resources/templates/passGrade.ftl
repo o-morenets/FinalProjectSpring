@@ -9,7 +9,7 @@
                     <label for="passGrade">
                         <@s.message "form.control.passGrade"/>
                     </label>
-                    <input id="passGrade" type="number" name="passGrade">
+                    <input id="passGrade" type="number" min="0" max="100" step="any" name="passGrade">
                 </div>
                 <div class="form-group-row">
                     <button type="submit" class="btn btn-primary mt-3">

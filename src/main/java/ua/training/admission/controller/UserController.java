@@ -61,21 +61,21 @@ public class UserController {
 
     @GetMapping("/profile")
     public String userProfile(@AuthenticationPrincipal User principal, Model model) {
-        User usr = userService.findById(principal.getId()).orElseThrow(ResourceNotFoundException::new);
-        addModelAttributes(model, usr);
+        User user = userService.findById(principal.getId()).orElseThrow(ResourceNotFoundException::new);
+        addModelAttributes(model, user);
 
         return "userGrades";
     }
 
-    private void addModelAttributes(Model model, User usr) {
-        model.addAttribute("user", usr);
-        model.addAttribute("userSubjectGradeList", subjectGradeService.findUserSubjectGrades(usr));
+    private void addModelAttributes(Model model, User user) {
+        model.addAttribute("user", user);
+        model.addAttribute("userSubjectGradeList", subjectGradeService.findUserSubjectGrades(user));
     }
 
     @GetMapping("/{userId}/grades")
     public String userGrades(@PathVariable Long userId, Model model) {
-        User usr = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
-        addModelAttributes(model, usr);
+        User user = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
+        addModelAttributes(model, user);
 
         return "userGrades";
     }

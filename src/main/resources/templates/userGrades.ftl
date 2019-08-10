@@ -4,7 +4,7 @@
 
 <@c.page>
     <div class="row justify-content-center">
-        <div>
+        <div class="col-3">
             <#if isAdmin>
                 <div class="row">
                     <div class="col">
@@ -61,7 +61,7 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <input type="number"
+                                                            <input type="number" min="0" max="100"
                                                                    id="subject_${userSubjectGrade.subject.id}"
                                                                    name="subject_${userSubjectGrade.subject.id}"
                                                                    value="<#if userSubjectGrade.grade??>${userSubjectGrade.grade}</#if>"
