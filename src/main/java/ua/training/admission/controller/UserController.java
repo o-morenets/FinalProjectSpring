@@ -14,6 +14,8 @@ import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import java.util.Map;
 
 @Slf4j
@@ -93,7 +95,7 @@ public class UserController {
     }
 
     @PostMapping("/sendMessages")
-    public String sendMessages(@RequestParam("passGrade") Double passGrade) {
+    public String sendMessages(@RequestParam("passGrade") @DecimalMin("0.0") @DecimalMax("100.0") Double passGrade) {
         userService.sendMessages(passGrade);
 
         return "redirect:/users/ratingList";
