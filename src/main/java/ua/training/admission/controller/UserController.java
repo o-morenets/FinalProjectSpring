@@ -6,14 +6,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.admission.entity.Role;
 import ua.training.admission.entity.User;
+import ua.training.admission.entity.dto.NumberDto;
 import ua.training.admission.exception.ResourceNotFoundException;
 import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.util.Map;
@@ -95,8 +98,17 @@ public class UserController {
     }
 
     @PostMapping("/sendMessages")
-    public String sendMessages(@RequestParam("passGrade") @DecimalMin("0.0") @DecimalMax("100.0") Double passGrade) {
-        userService.sendMessages(passGrade);
+    public String sendMessages(@Valid NumberDto numberDto,
+                               BindingResult bindingResult,
+                               Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("passGradeError", "form.invalid.passGrade");
+
+            return "passGrade";
+        }
+
+        userService.sendMessages(numberDto.getPassGrade());
 
         return "redirect:/users/ratingList";
     }
