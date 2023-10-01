@@ -3,7 +3,7 @@ package ua.training.admission.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.admission.entity.*;
@@ -13,7 +13,6 @@ import ua.training.admission.repository.UserRepository;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,11 +22,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SpecialityRepository specialityRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, SpecialityRepository specialityRepository) {
+    public UserService(UserRepository userRepository, SpecialityRepository specialityRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.specialityRepository = specialityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAllByRole(Role role) {
@@ -41,7 +42,7 @@ public class UserService {
     public void createUser(User user) {
         User usr = User.builder()
                 .username(user.getUsername())
-                .password(new BCryptPasswordEncoder().encode(user.getPassword()))
+                .password(passwordEncoder.encode(user.getPassword()))
                 .email(user.getEmail())
                 .authorities(Collections.singleton(Role.USER))
                 .accountNonExpired(true)
