@@ -39,9 +39,9 @@ public class SubjectGradeService {
     }
 
     @Transactional
-    void updateAndDelete(User user,
-                         List<SubjectGrade> subjectGradesToUpdate,
-                         List<SubjectGrade> subjectGradesToDelete) {
+    public void updateAndDelete(User user,
+                                List<SubjectGrade> subjectGradesToUpdate,
+                                List<SubjectGrade> subjectGradesToDelete) {
 
         subjectGradeRepository.saveAll(subjectGradesToUpdate);
         subjectGradeRepository.deleteAll(subjectGradesToDelete);
