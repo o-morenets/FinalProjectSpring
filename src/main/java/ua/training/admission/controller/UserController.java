@@ -2,7 +2,6 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +16,6 @@ import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import java.util.Map;
 
 @Slf4j
@@ -120,9 +117,9 @@ public class UserController {
         return "ratingList";
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public void resourceNotFound(ResourceNotFoundException e) {
+    public String resourceNotFound(ResourceNotFoundException e) {
         log.warn("No such user in database", e);
+        return "error/404";
     }
 }
