@@ -121,3 +121,14 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   CONSTRAINT `FKfpm8swft53ulq2hl11yplpr5`
     FOREIGN KEY (`user_id`)
     REFERENCES `usr` (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `persistent_logins`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `persistent_logins` ;
+
+CREATE TABLE IF NOT EXISTS `persistent_logins`
+(
+    `username` VARCHAR(255) NOT NULL
+);
