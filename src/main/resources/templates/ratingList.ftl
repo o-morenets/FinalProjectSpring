@@ -2,7 +2,7 @@
 <#import "/spring.ftl" as s/>
 
 <@c.page>
-    <div class="row">
+<div class= "row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><@s.message "card.ratingList.title"/></div>
@@ -25,7 +25,8 @@
                                 <td>${user.firstName}</td>
                                 <td>${user.email}</td>
                                 <td>${user.username}</td>
-                                <td><#if user.speciality??>
+                                <td>
+                                    <#if user.speciality??>
                                         ${user.speciality.name}
                                     <#else>
                                         <span class="badge badge-dark mb-3">
