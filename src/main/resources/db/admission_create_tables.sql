@@ -1,3 +1,5 @@
+SET NAMES UTF8;
+
 -- -----------------------------------------------------
 -- Schema admission
 -- -----------------------------------------------------
@@ -128,7 +130,5 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `persistent_logins` ;
 
-CREATE TABLE IF NOT EXISTS `persistent_logins`
-(
-    `username` VARCHAR(255) NOT NULL
-);
+CREATE TABLE IF NOT EXISTS `persistent_logins` (
+    `username` VARCHAR(255) NOT NULL);
