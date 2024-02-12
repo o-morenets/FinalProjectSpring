@@ -2,6 +2,7 @@ package ua.training.admission.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -40,6 +42,16 @@ public class UserController {
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userService.findAllByRole(Role.USER));
+
+        return "userList";
+    }
+
+    @GetMapping("/slice")
+    public String userListSlice(Model model) {
+        Slice<User> firstSlice = userService.findAllByRole(Role.USER, 0, 3);
+        List<User> firstSliceContent = firstSlice.getContent();
+
+        model.addAttribute("users", firstSliceContent);
 
         return "userList";
     }

@@ -3,6 +3,8 @@ package ua.training.admission.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,10 @@ public class UserService {
 
     public List<User> findAllByRole(Role role) {
         return userRepository.findByAuthoritiesContains(role);
+    }
+
+    public Slice<User> findAllByRole(Role role, int page, int size) {
+        return userRepository.findByAuthoritiesContains(role, PageRequest.of(page, size));
     }
 
     public Optional<User> findById(Long id) {
