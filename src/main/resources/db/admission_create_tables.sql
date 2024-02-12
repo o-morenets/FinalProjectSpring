@@ -131,4 +131,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 DROP TABLE IF EXISTS `persistent_logins` ;
 
 CREATE TABLE IF NOT EXISTS `persistent_logins` (
-    `username` VARCHAR(255) NOT NULL);
+    `username` VARCHAR(64) NOT NULL,
+    `series` VARCHAR(64) PRIMARY KEY,
+    `token` VARCHAR(64) NOT NULL,
+    `last_used` TIMESTAMP NOT NULL);

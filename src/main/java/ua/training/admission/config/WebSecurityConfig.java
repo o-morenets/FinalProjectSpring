@@ -53,7 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()
-                .and().rememberMe().tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(20 * 60)
+
+                .and().rememberMe()
+//                .userDetailsService(this.userDetailsService) // cookie-based remember-me
+                .tokenRepository(persistentTokenRepository()) // token-based remember-me
+                .tokenValiditySeconds(15 * 60)
+
                 .and().exceptionHandling().accessDeniedPage("/403");
     }
 
