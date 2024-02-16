@@ -1,7 +1,8 @@
 package ua.training.admission.controller;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -14,23 +15,18 @@ import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.service.UserService;
 
-import javax.validation.Valid;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class RegistrationController {
 
     private final UserService userService;
 
-    @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping("/signup")
+   @GetMapping("/signup")
     public String signUp() {
         return "signup";
     }
@@ -42,7 +38,7 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model) {
 
-        boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        boolean isConfirmEmpty = StringUtils.hasText(passwordConfirm);
         if (isConfirmEmpty) {
             model.addAttribute("password2Error", "form.invalid.passwordRetype.empty");
         }

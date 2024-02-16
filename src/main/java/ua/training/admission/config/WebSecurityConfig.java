@@ -1,72 +1,58 @@
 package ua.training.admission.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import ua.training.admission.entity.Role;
-import ua.training.admission.service.userDetailsServiceImpl.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity(securedEnabled = true)
+@RequiredArgsConstructor
+public class WebSecurityConfig {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsServiceImpl userDetailsService;
     private final DataSource dataSource;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
-    @Autowired
-    public WebSecurityConfig(PasswordEncoder passwordEncoder,
-                             UserDetailsServiceImpl userDetailsService,
-                             DataSource dataSource) {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return
+                http
+                        .csrf(AbstractHttpConfigurer::disable)
+                        .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers("/", "/signup", "/api/v1/auth/**").permitAll()
+                                .requestMatchers("/css/**", "/jquery/**", "/js/**", "/img/**").permitAll()
+                                .requestMatchers("/users/profile", "/users/{id}/speciality").hasAuthority("USER")
 
-        this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
-        this.dataSource = dataSource;
-    }
+                                .requestMatchers("/users", "/users/", "/users/{id}/grades", "/users/passGrade",
+                                        "/users/ratingList", "/api/v1/demo-controller")
+                                .hasAuthority("ADMIN")
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/signup").permitAll()
-
-                .antMatchers("/css/**", "/jquery/**", "/js/**", "/img/**").permitAll()
-
-                .antMatchers("/users/profile", "/users/{id}/speciality")
-                .access("hasAuthority('USER')")
-
-                .antMatchers("/users", "/users/", "/users/{id}/grades",
-                        "/users/passGrade", "/users/ratingList")
-                .access("hasAuthority('ADMIN')")
-
-                .anyRequest().authenticated()
-
-                .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll()
-
-                .and().rememberMe()
-//                .userDetailsService(this.userDetailsService) // cookie-based remember-me
-                .tokenRepository(persistentTokenRepository()) // token-based remember-me
-                .tokenValiditySeconds(15 * 60)
-
-                .and().exceptionHandling().accessDeniedPage("/403");
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+                                .anyRequest().authenticated()
+                        )
+//                        .formLogin(form -> form.loginPage("/login").permitAll())
+                        .formLogin(Customizer.withDefaults())
+                        .logout(LogoutConfigurer::permitAll)
+                        .rememberMe(configurer -> persistentTokenRepository())
+                        .exceptionHandling(configurer -> configurer.accessDeniedPage("/403"))
+                        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .authenticationProvider(authenticationProvider)
+                        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                        .build();
     }
 
     @Bean

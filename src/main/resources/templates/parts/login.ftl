@@ -141,7 +141,7 @@
                 </button>
             </div>
         </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
     </form>
 </#macro>
 
@@ -154,7 +154,7 @@
             <button class="btn btn-secondary ml-3" type="submit">
                 <@s.message "menu.logout"/>
             </button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--            <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
         </form>
     <#else>
         <a class="btn btn-primary" href="/login" role="button"><@s.message "menu.login"/></a>

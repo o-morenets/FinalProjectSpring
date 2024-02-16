@@ -1,23 +1,28 @@
 package ua.training.admission.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.admission.entity.*;
+import ua.training.admission.entity.Role;
+import ua.training.admission.entity.Speciality;
+import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
 import ua.training.admission.repository.UserRepository;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private static final int SQL_CONSTRAINT_NOT_UNIQUE = 1062;
@@ -25,13 +30,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final SpecialityRepository specialityRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(UserRepository userRepository, SpecialityRepository specialityRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.specialityRepository = specialityRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<User> findAllByRole(Role role) {
         return userRepository.findByAuthoritiesContains(role);

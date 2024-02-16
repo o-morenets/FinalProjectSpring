@@ -1,7 +1,8 @@
 package ua.training.admission.controller;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,28 +17,18 @@ import ua.training.admission.service.SpecialityService;
 import ua.training.admission.service.SubjectGradeService;
 import ua.training.admission.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Controller
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final SpecialityService specialityService;
     private final SubjectGradeService subjectGradeService;
-
-    @Autowired
-    public UserController(UserService userService,
-                          SpecialityService specialityService,
-                          SubjectGradeService subjectGradeService) {
-
-        this.userService = userService;
-        this.specialityService = specialityService;
-        this.subjectGradeService = subjectGradeService;
-    }
 
     @GetMapping
     public String userList(Model model) {

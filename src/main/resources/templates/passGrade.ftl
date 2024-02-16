@@ -24,7 +24,7 @@
                                 <@s.message "button.sendMessages"/>
                             </button>
                         </div>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
                     </form>
                 </div>
             </div>

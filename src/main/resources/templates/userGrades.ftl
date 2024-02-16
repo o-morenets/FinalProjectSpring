@@ -86,7 +86,7 @@
                                             <@s.message "message.noSubjects"/>
                                         </#if>
                                         <input type="hidden" name="userId" value="${user.id}"/>
-                                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--                                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
                                     </form>
                                 </div>
                             </#if>

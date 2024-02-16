@@ -70,7 +70,7 @@
                             </#list>
                         </div>
                         <input type="hidden" name="userId" value="${user.id}"/>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
                         <div class="col-12 mt-3 text-center">
                             <button class="btn btn-primary" type="submit">
                                 <@s.message "button.save"/>
