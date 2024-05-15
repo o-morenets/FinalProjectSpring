@@ -19,6 +19,7 @@ import ua.training.admission.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -129,9 +130,9 @@ public class UserController {
         return "ratingList";
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public String resourceNotFound(ResourceNotFoundException e) {
-        log.warn("No such user in database", e);
-        return "error/404";
-    }
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public String resourceNotFound(ResourceNotFoundException e) {
+//        log.warn("No such user in database", e);
+//        return "error/404";
+//    }
 }
