@@ -59,7 +59,7 @@ public class UserController {
 
     @GetMapping("/{user}/speciality")
     public String selectSpeciality(@PathVariable User user, Model model) {
-        User usr = userService.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
+        User usr = Optional.ofNullable(user).orElseThrow(ResourceNotFoundException::new);
 
         model.addAttribute("user", usr);
         model.addAttribute("specialities", specialityService.findAll());
