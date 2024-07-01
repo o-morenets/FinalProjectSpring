@@ -57,6 +57,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
+            <version>1.18.32</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
