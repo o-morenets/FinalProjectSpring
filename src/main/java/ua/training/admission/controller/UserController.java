@@ -89,7 +89,8 @@ public class UserController {
 
     @GetMapping("/{userId}/grades")
     public String userGrades(@PathVariable Long userId, Model model) {
-        User user = userService.findById(userId).orElseThrow(ResourceNotFoundException::new);
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found (ID: " + userId + ")"));
         addModelAttributes(model, user);
 
         return "userGrades";
