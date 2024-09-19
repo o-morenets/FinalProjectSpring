@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                         .exceptionHandling(configurer -> configurer.accessDeniedPage("/403"))
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authenticationProvider(authenticationProvider)
-                        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                        .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                         .build();
     }
 
