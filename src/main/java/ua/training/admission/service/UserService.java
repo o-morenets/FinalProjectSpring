@@ -3,6 +3,7 @@ package ua.training.admission.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedExceptionUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,8 +25,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
-    private static final int SQL_CONSTRAINT_NOT_UNIQUE = 1062;
 
     private final UserRepository userRepository;
     private final SpecialityRepository specialityRepository;
@@ -60,22 +59,19 @@ public class UserService {
         try {
             userRepository.save(usr);
 
-        } catch (Exception e) {
-            int errorCode = 0;
-
-            Throwable specificException = NestedExceptionUtils.getMostSpecificCause(e);
-
-            if (specificException instanceof SQLException) {
-                SQLException sqlException = (SQLException) specificException;
-                errorCode = sqlException.getErrorCode();
-            }
-
-            if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
+        } catch (DataIntegrityViolationException e) {
+            if (isDuplicateKeyException(e)) {
                 throw new NotUniqueUsernameException("User already exists");
             }
-
+            // Re-throw other types of exceptions
             throw e;
         }
+    }
+
+    private boolean isDuplicateKeyException(DataIntegrityViolationException ex) {
+        // This method can be more specific depending on the underlying database.
+        // For example, with MySQL you may inspect the SQLState or ErrorCode.
+        return ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException;
     }
 
     public void updateSpeciality(User user, Long specId) {
