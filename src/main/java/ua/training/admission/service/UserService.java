@@ -2,19 +2,22 @@ package ua.training.admission.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.NestedExceptionUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.admission.entity.*;
+import ua.training.admission.entity.Role;
+import ua.training.admission.entity.Speciality;
+import ua.training.admission.entity.User;
 import ua.training.admission.exception.NotUniqueUsernameException;
 import ua.training.admission.repository.SpecialityRepository;
 import ua.training.admission.repository.UserRepository;
 
-import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -60,23 +63,9 @@ public class UserService {
                 .build();
 
         try {
-            userRepository.save(usr);
-
-        } catch (Exception e) {
-            int errorCode = 0;
-
-            Throwable specificException = NestedExceptionUtils.getMostSpecificCause(e);
-
-            if (specificException instanceof SQLException) {
-                SQLException sqlException = (SQLException) specificException;
-                errorCode = sqlException.getErrorCode();
-            }
-
-            if (errorCode == SQL_CONSTRAINT_NOT_UNIQUE) {
-                throw new NotUniqueUsernameException("User already exists");
-            }
-
-            throw e;
+            userRepository.saveAndFlush(usr);
+        } catch (DataIntegrityViolationException e) {
+            throw new NotUniqueUsernameException("User already exists");
         }
     }
 
